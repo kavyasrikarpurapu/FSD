@@ -1,0 +1,349 @@
+.threeui-mount,
+.terrain-plume-component,
+.text-path-study,
+.article-headings-component,
+.animated-top-dock-component,
+.typography-vortex-component,
+.mechanical-keyboard,
+.retro-metallic,
+.landscape-scene,
+.japanese-tower-landscape,
+.sakura-branch-scene,
+.isometric-motion-grid,
+.isometric-illustration,
+.tetrahedron-365,
+.liquid-metal-button,
+.iso-mail-lightshafts,
+.spark-badge,
+.hypnotic-loops,
+.at-the-horizon,
+.scalability-bricks,
+.threeui-background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mechanical-keyboard {
+  isolation: isolate;
+  background: #090a0c;
+}
+
+.mechanical-keyboard__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #090a0c;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+  touch-action: none;
+}
+
+.mechanical-keyboard__frame.is-ready {
+  opacity: 1;
+}
+
+.retro-metallic {
+  isolation: isolate;
+  background: #08090a;
+}
+
+.retro-metallic__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #08090a;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+  touch-action: none;
+}
+
+.retro-metallic__frame.is-ready {
+  opacity: 1;
+}
+
+.japanese-tower-landscape {
+  isolation: isolate;
+  background: #ecdcbc;
+}
+
+.japanese-tower-landscape__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #ecdcbc;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.japanese-tower-landscape__frame.is-ready {
+  opacity: 1;
+}
+
+.landscape-scene {
+  isolation: isolate;
+  background: #ecdcbc;
+}
+
+.landscape-scene__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #ecdcbc;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+  touch-action: none;
+}
+
+.landscape-scene__frame.is-ready {
+  opacity: 1;
+}
+
+.sakura-branch-scene {
+  isolation: isolate;
+  background: #d4738a;
+}
+
+.sakura-branch-scene__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #d4738a;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.sakura-branch-scene__frame.is-ready {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sakura-branch-scene__frame {
+    transition: none;
+  }
+}
+
+.isometric-motion-grid {
+  isolation: isolate;
+  background: #08090a;
+}
+
+.isometric-motion-grid__stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1200px;
+  height: 675px;
+  transform-origin: 50% 50%;
+}
+
+.isometric-motion-grid__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #08090a;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.isometric-motion-grid__frame.is-ready {
+  opacity: 1;
+}
+
+.isometric-illustration {
+  isolation: isolate;
+  background: #111;
+}
+
+.isometric-illustration__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #111;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.isometric-illustration__frame.is-ready {
+  opacity: 1;
+}
+
+.tetrahedron-365 {
+  isolation: isolate;
+  background: #000;
+}
+
+.tetrahedron-365__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.tetrahedron-365__frame.is-ready {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tetrahedron-365__frame {
+    transition: none;
+  }
+}
+
+.liquid-metal-button {
+  isolation: isolate;
+  background: #070708;
+}
+
+.liquid-metal-button__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #070708;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.liquid-metal-button__frame.is-ready {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-metal-button__frame {
+    transition: none;
+  }
+}
+
+.iso-mail-lightshafts {
+  isolation: isolate;
+  background: #140f0b;
+}
+
+.iso-mail-lightshafts__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #140f0b;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.iso-mail-lightshafts__frame.is-ready {
+  opacity: 1;
+}
+
+.spark-badge {
+  isolation: isolate;
+  background: #000;
+}
+
+.spark-badge__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.spark-badge__frame.is-ready {
+  opacity: 1;
+}
+
+.hypnotic-loops {
+  isolation: isolate;
+  background: #f15a24;
+}
+
+.hypnotic-loops__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #f15a24;
+  opacity: 0;
+}
+
+.hypnotic-loops__frame.is-ready {
+  opacity: 1;
+}
+
+.at-the-horizon {
+  isolation: isolate;
+  background: #000;
+}
+
+.at-the-horizon__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.at-the-horizon__frame.is-ready {
+  opacity: 1;
+}
+
+.scalability-bricks {
+  isolation: isolate;
+  background: #0b0b0c;
+}
+
+.scalability-bricks__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #0b0b0c;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.scalability-bricks__frame.is-ready {
+  opacity: 1;
+}
