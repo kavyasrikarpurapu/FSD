@@ -24,7 +24,6 @@ import JobCard from '../components/common/JobCard';
 import FreelancerCard from '../components/common/FreelancerCard';
 import { useAuth } from '../context/AuthContext';
 import { Scene as SparkBadgeScene } from '../components/common/SparkBadgeScene';
-import CardSpreadSection from '../components/common/CardSpreadSection';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -266,9 +265,6 @@ const HomePage = () => {
           ))}
         </div>
       </section>
-
-      {/* React Bits Pro Card Spread Section */}
-      <CardSpreadSection />
 
       {/* How it Works / Trust Pillars */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
