@@ -24,7 +24,6 @@ import JobCard from '../components/common/JobCard';
 import FreelancerCard from '../components/common/FreelancerCard';
 import { useAuth } from '../context/AuthContext';
 import { Scene as SparkBadgeScene } from '../components/common/SparkBadgeScene';
-import { Scene as GalleryScene } from '../components/common/GalleryScene';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -267,37 +266,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* 3D Interactive Project & Visual Work Gallery (ThreeUI Gallery) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-b from-slate-900/90 via-slate-900/60 to-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl relative overflow-hidden">
-          
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-2 shadow-glow">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Dynamic 3D Project & Deliverables Showcase</span>
-              </div>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Live Work Portfolio & Deliverables
-              </h2>
-              <p className="text-sm text-slate-400 mt-2 max-w-2xl">
-                Explore real-world deliverables, mobile applications, interactive interfaces, and systems delivered by vetted freelancers across the globe.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs text-slate-400 bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700/60 flex-shrink-0">
-              <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-              <span>Continuous 3D Cylindrical Motion &bull; Three.js r149</span>
-            </div>
-          </div>
-
-          {/* ThreeUI Gallery Frame Container */}
-          <div className="w-full h-[480px] sm:h-[560px] relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-[#030304]">
-            <GalleryScene />
-          </div>
-
-        </div>
-      </section>
       {/* How it Works / Trust Pillars */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-b from-slate-900 to-slate-900/60 border border-slate-800 rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden">
