@@ -25,6 +25,15 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get(['/health', '/api/health'], (req, res) => {
+  res.json({
+    success: true,
+    status: 'healthy',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.get('/api', (req, res) => {
   res.json({
     success: true,
