@@ -29,7 +29,11 @@ api.interceptors.response.use(
         localStorage.removeItem('user');
       }
     }
-    return Promise.reject(error.response?.data || { message: error.message || 'Network Error' });
+    const errMsg = error.response?.data?.message || 
+      (typeof error.response?.data === 'string' ? error.response.data : null) || 
+      (error.message === 'Network Error' || error.code === 'ERR_BAD_RESPONSE' ? 'Cannot connect to backend server. Make sure the backend is running on port 5001.' : error.message) || 
+      'An unexpected error occurred';
+    return Promise.reject(new Error(errMsg));
   }
 );
 
