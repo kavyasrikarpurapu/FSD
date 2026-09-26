@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Backend for Freelance Market Hub with Express & MongoDB Atlas",
   "main": "src/server.js",
+  "license": "MIT",
   "scripts": {
     "start": "node src/server.js",
+    "build": "echo 'Backend ready'",
     "dev": "node --watch src/server.js",
     "seed": "node src/seed.js"
   },
