@@ -48,6 +48,18 @@ const LoginPage = () => {
     }
   };
 
+  const [customApiUrl, setCustomApiUrl] = useState('');
+  const [showConfig, setShowConfig] = useState(false);
+
+  const handleSaveApiUrl = (e) => {
+    e.preventDefault();
+    if (!customApiUrl) return;
+    const clean = customApiUrl.trim().replace(/\/+$/, '');
+    localStorage.setItem('VITE_API_URL', clean.endsWith('/api') ? clean : `${clean}/api`);
+    setShowConfig(false);
+    setError('Backend URL updated! Please sign in or use 1-click login now.');
+  };
+
   return (
     <div className="min-h-[82vh] flex items-center justify-center px-4 py-12">
       <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl w-full max-w-4xl shadow-warm-xl grid grid-cols-1 md:grid-cols-12 overflow-hidden">
@@ -95,9 +107,41 @@ const LoginPage = () => {
             </div>
 
             {error && (
-              <div className="mt-4 p-3.5 rounded-xl bg-[#faece5] border border-[#f6d9cd] flex items-center gap-2.5 text-xs text-[#c26547]">
-                <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                <span>{error}</span>
+              <div className="mt-4 p-3.5 rounded-xl bg-[#faece5] border border-[#f6d9cd] space-y-2 text-xs text-[#c26547]">
+                <div className="flex items-start gap-2.5">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                  <span className="leading-relaxed">{error}</span>
+                </div>
+                {(error.includes('405') || error.includes('Backend') || error.includes('backend') || error.includes('connect')) && (
+                  <div className="pt-2 border-t border-[#f6d9cd]/80">
+                    {!showConfig ? (
+                      <button
+                        type="button"
+                        onClick={() => setShowConfig(true)}
+                        className="font-bold underline text-[#c26547] hover:text-[#a04e33]"
+                      >
+                        Click here to enter your live Render backend URL
+                      </button>
+                    ) : (
+                      <div className="flex gap-2 mt-1.5">
+                        <input
+                          type="text"
+                          placeholder="https://your-backend.onrender.com"
+                          value={customApiUrl}
+                          onChange={(e) => setCustomApiUrl(e.target.value)}
+                          className="flex-1 bg-white border border-[#E5D7C5] rounded-lg px-2.5 py-1 text-xs text-[#3B3028] placeholder-[#9C8E80] focus:outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleSaveApiUrl}
+                          className="px-3 py-1 bg-[#16A085] hover:bg-[#12806A] text-white font-bold rounded-lg text-xs"
+                        >
+                          Save & Retry
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
 
