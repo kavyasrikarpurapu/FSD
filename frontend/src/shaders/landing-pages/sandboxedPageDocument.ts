@@ -1,0 +1,1 @@
+export function buildSandboxedPageDocument(src) { return src; }

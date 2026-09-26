@@ -77,7 +77,7 @@ async function verifyEndToEnd() {
       },
       freelancerToken
     );
-    console.log('✅ Proposal Successfully Stored in Atlas:', proposal.proposal._id, `Bid: $${proposal.proposal.bidAmount}`);
+    console.log('✅ Proposal Successfully Stored in Atlas:', proposal.proposal._id, `Bid: ₹${proposal.proposal.bidAmount}`);
     const proposalId = proposal.proposal._id;
 
     // 7. Accept Proposal as Client (Creates Contract)

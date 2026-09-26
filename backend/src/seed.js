@@ -335,7 +335,7 @@ async function seedData() {
     await Notification.create({
       user: client1._id,
       title: 'New Proposal Received',
-      message: 'Alex Rivera submitted a proposal of $3,200 on "Build a Full-Stack SaaS Analytics Platform in React & Node.js"',
+      message: 'Alex Rivera submitted a proposal of ₹3,200 on "Build a Full-Stack SaaS Analytics Platform in React & Node.js"',
       link: `/jobs/${job1._id}`,
       type: 'proposal'
     });

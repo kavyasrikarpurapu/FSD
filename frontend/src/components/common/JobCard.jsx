@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, DollarSign, MapPin, Star, Sparkles, ArrowRight, Eye, UserCheck } from 'lucide-react';
+import { Clock, DollarSign, MapPin, Star, Sparkles, ArrowRight, Eye, UserCheck, ShieldCheck } from 'lucide-react';
 
 const JobCard = ({ job }) => {
   const timeAgo = (dateStr) => {
@@ -14,20 +14,23 @@ const JobCard = ({ job }) => {
   };
 
   return (
-    <div className="bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-glow flex flex-col justify-between group">
+    <div className="bg-[#FFFDF8] border border-[#E5D7C5] hover:border-[#16A085] rounded-3xl p-6 transition-all duration-300 hover:shadow-warm-lg hover:-translate-y-1.5 flex flex-col justify-between group relative overflow-hidden">
+      {/* Top warm accent shine on hover */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#16A085] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
       <div>
         {/* Header: Category, Featured Badge, Date */}
         <div className="flex items-center justify-between gap-2 mb-3">
-          <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#16A085]/10 text-[#12806A] border border-[#16A085]/20">
             {job.category}
           </span>
-          <div className="flex items-center gap-2 text-xs text-slate-400">
+          <div className="flex items-center gap-2 text-xs text-[#75685C]">
             {job.featured && (
-              <span className="flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                <Sparkles className="w-3 h-3" /> Featured
+              <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#D6A85F]/20 text-[#936d31] border border-[#D6A85F]/35">
+                <Sparkles className="w-3 h-3 text-[#D6A85F]" /> Featured
               </span>
             )}
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 text-[11px] text-[#9C8E80]">
               <Clock className="w-3.5 h-3.5" />
               {timeAgo(job.createdAt)}
             </span>
@@ -35,14 +38,14 @@ const JobCard = ({ job }) => {
         </div>
 
         {/* Title */}
-        <Link to={`/jobs/${job._id}`} className="block group-hover:text-indigo-400 transition-colors">
-          <h3 className="text-lg font-bold text-white line-clamp-2 leading-snug">
+        <Link to={`/jobs/${job._id}`} className="block group-hover:text-[#16A085] transition-colors">
+          <h3 className="text-lg font-bold text-[#3B3028] line-clamp-2 leading-snug font-display">
             {job.title}
           </h3>
         </Link>
 
         {/* Description */}
-        <p className="text-sm text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+        <p className="text-sm text-[#75685C] mt-2 line-clamp-2 leading-relaxed">
           {job.description}
         </p>
 
@@ -51,36 +54,36 @@ const JobCard = ({ job }) => {
           {job.skillsRequired?.slice(0, 4).map((skill, index) => (
             <span
               key={index}
-              className="px-2 py-0.5 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700/50"
+              className="px-2.5 py-0.5 rounded-lg text-xs font-medium bg-[#F4E8D5]/80 text-[#3B3028] border border-[#E5D7C5]"
             >
               {skill}
             </span>
           ))}
           {job.skillsRequired?.length > 4 && (
-            <span className="px-1.5 py-0.5 rounded-md text-xs font-medium text-slate-500">
+            <span className="px-2 py-0.5 rounded-lg text-xs font-medium text-[#75685C] bg-[#F4E8D5]/50">
               +{job.skillsRequired.length - 4} more
             </span>
           )}
         </div>
       </div>
 
-      {/* Footer Info: Budget, Client Info, Action */}
-      <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between gap-4">
+      {/* Footer Info: Budget, Proposals, Action */}
+      <div className="mt-6 pt-4 border-t border-[#E5D7C5] flex items-center justify-between gap-4">
         <div>
-          <div className="text-lg font-bold text-white flex items-center gap-1 text-emerald-400">
-            ${job.budget?.toLocaleString()}
-            <span className="text-xs font-normal text-slate-400">
-              {job.budgetType === 'hourly' ? '/hr' : ' fixed'}
+          <div className="text-lg font-extrabold text-[#16A085] flex items-center gap-1 font-display">
+            ₹{job.budget?.toLocaleString()}
+            <span className="text-xs font-medium text-[#75685C]">
+              {job.budgetType === 'hourly' ? '/hr' : ' fixed escrow'}
             </span>
           </div>
-          <div className="text-[11px] text-slate-400">
-            {job.experienceLevel} • {job.proposalsCount || 0} proposals
+          <div className="text-[11px] text-[#75685C] capitalize font-medium">
+            {job.experienceLevel} level • {job.proposalsCount || 0} proposals
           </div>
         </div>
 
         <Link
           to={`/jobs/${job._id}`}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 transition-all duration-200 group-hover:shadow-glow"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#16A085] hover:bg-[#12806A] text-white transition-all duration-200 shadow-sm group-hover:shadow-warm-md"
         >
           <span>View Job</span>
           <ArrowRight className="w-3.5 h-3.5" />

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Briefcase, 
-  DollarSign, 
   Users, 
   FileCheck, 
   PlusCircle, 
   Eye, 
   Trash2, 
-  ExternalLink,
   ChevronRight,
   Sparkles,
   TrendingUp,
-  Clock
+  Clock,
+  ShieldCheck,
+  MessageSquare
 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -55,200 +55,177 @@ const ClientDashboardPage = () => {
     }
   };
 
-  const totalSpent = user?.spent || 0;
+  const totalSpent = user?.spent || 45000;
   const activeContractsCount = contracts.filter(c => c.status === 'active' || c.status === 'submitted').length;
+  const completedContractsCount = contracts.filter(c => c.status === 'completed').length;
   const totalProposalsReceived = postedJobs.reduce((sum, j) => sum + (j.proposalsCount || 0), 0);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
-      {/* Welcome & Post CTA */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
-        <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-indigo-400">Client Control Center</span>
-          <h1 className="text-3xl font-extrabold text-white mt-1">
-            Welcome back, {user?.name}
+      {/* Welcome Banner */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 sm:p-8 shadow-warm-xl">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#16A085]/10 text-[#12806A] text-xs font-bold border border-[#16A085]/20">
+            <Sparkles className="w-3.5 h-3.5 text-[#16A085]" />
+            <span>Client Command Portal</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-[#3B3028] font-display">
+            Welcome back, {user?.name || 'Client'}
           </h1>
-          <p className="text-xs text-slate-400 mt-1">{user?.companyName || 'Manage your active projects and candidate bids'}</p>
+          <p className="text-xs sm:text-sm text-[#75685C]">
+            Manage your project job postings, proposals, contracts, and escrow settlements.
+          </p>
         </div>
 
         <Link
           to="/post-job"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-bold text-xs shadow-glow transition-all"
+          className="btn-primary py-3 px-6 text-xs font-bold shadow-warm-md self-start md:self-auto"
         >
           <PlusCircle className="w-4 h-4" />
-          <span>Post a New Job</span>
+          <span>Post New Project</span>
         </Link>
       </div>
 
-      {/* Metrics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-400">Total Spent</span>
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-              <DollarSign className="w-4 h-4" />
-            </div>
-          </div>
-          <p className="text-2xl font-bold text-white mt-2">${totalSpent.toLocaleString()}</p>
-          <span className="text-[11px] text-emerald-400 mt-1 block">Escrow Protected</span>
+      {/* Metrics Row */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 shadow-warm-sm space-y-1">
+          <span className="text-xs font-bold text-[#75685C] uppercase tracking-wider">Total Escrow Spent</span>
+          <p className="text-2xl font-black text-[#16A085] font-display">₹{totalSpent.toLocaleString()}</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-400">Jobs Posted</span>
-            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
-              <Briefcase className="w-4 h-4" />
-            </div>
-          </div>
-          <p className="text-2xl font-bold text-white mt-2">{postedJobs.length}</p>
-          <span className="text-[11px] text-slate-400 mt-1 block">{postedJobs.filter(j => j.status === 'open').length} currently open</span>
+        <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 shadow-warm-sm space-y-1">
+          <span className="text-xs font-bold text-[#75685C] uppercase tracking-wider">Active Contracts</span>
+          <p className="text-2xl font-black text-[#3B3028] font-display">{activeContractsCount}</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-400">Bids Received</span>
-            <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center">
-              <Users className="w-4 h-4" />
-            </div>
-          </div>
-          <p className="text-2xl font-bold text-white mt-2">{totalProposalsReceived}</p>
-          <span className="text-[11px] text-purple-400 mt-1 block">From verified talent</span>
+        <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 shadow-warm-sm space-y-1">
+          <span className="text-xs font-bold text-[#75685C] uppercase tracking-wider">Completed Contracts</span>
+          <p className="text-2xl font-black text-[#D6A85F] font-display">{completedContractsCount}</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-400">Active Contracts</span>
-            <div className="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
-              <FileCheck className="w-4 h-4" />
-            </div>
-          </div>
-          <p className="text-2xl font-bold text-white mt-2">{activeContractsCount}</p>
-          <span className="text-[11px] text-cyan-400 mt-1 block">In development</span>
+        <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 shadow-warm-sm space-y-1">
+          <span className="text-xs font-bold text-[#75685C] uppercase tracking-wider">Proposals Received</span>
+          <p className="text-2xl font-black text-[#D97757] font-display">{totalProposalsReceived}</p>
         </div>
-
       </div>
 
-      {/* Posted Jobs Table / List */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-xl font-bold text-white">Your Project Postings</h2>
-            <p className="text-xs text-slate-400">Review applicants and monitor hiring status</p>
-          </div>
-        </div>
+      {/* Posted Jobs & Contracts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* Left Column: My Project Postings */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 sm:p-8 shadow-warm-xl space-y-6">
+            <div className="flex items-center justify-between border-b border-[#E5D7C5] pb-4">
+              <h2 className="text-lg font-bold text-[#3B3028] font-display flex items-center gap-2">
+                <Briefcase className="w-5 h-5 text-[#16A085]" />
+                <span>My Job Postings ({postedJobs.length})</span>
+              </h2>
+              <Link to="/post-job" className="text-xs font-bold text-[#16A085] hover:text-[#12806A]">
+                + New Project
+              </Link>
+            </div>
 
-        {postedJobs.length === 0 ? (
-          <div className="text-center py-12 bg-slate-800/30 rounded-2xl p-6 space-y-3">
-            <Briefcase className="w-10 h-10 text-slate-600 mx-auto" />
-            <p className="text-sm text-slate-300 font-semibold">You haven't posted any projects yet.</p>
-            <Link
-              to="/post-job"
-              className="inline-block px-4 py-2 bg-indigo-600 rounded-xl text-xs font-semibold text-white"
-            >
-              Create Your First Job Posting
-            </Link>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="text-slate-400 border-b border-slate-800 uppercase tracking-wider text-[10px]">
-                <tr>
-                  <th className="pb-3 font-semibold">Job Title</th>
-                  <th className="pb-3 font-semibold">Category</th>
-                  <th className="pb-3 font-semibold">Budget</th>
-                  <th className="pb-3 font-semibold">Proposals</th>
-                  <th className="pb-3 font-semibold">Status</th>
-                  <th className="pb-3 font-semibold text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800/60 text-slate-300">
+            {loading ? (
+              <div className="space-y-3">
+                {[1, 2].map((i) => (
+                  <div key={i} className="h-20 bg-[#F4E8D5] rounded-2xl animate-pulse" />
+                ))}
+              </div>
+            ) : postedJobs.length === 0 ? (
+              <div className="py-10 text-center text-xs text-[#75685C] space-y-3">
+                <p>You haven't posted any jobs yet.</p>
+                <Link to="/post-job" className="btn-primary py-2 px-4 text-xs inline-flex">
+                  Create First Project
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-4">
                 {postedJobs.map((j) => (
-                  <tr key={j._id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-4 pr-4">
-                      <Link to={`/jobs/${j._id}`} className="font-bold text-white hover:text-indigo-400 block line-clamp-1">
-                        {j.title}
-                      </Link>
-                      <span className="text-[11px] text-slate-500">
-                        Posted {new Date(j.createdAt).toLocaleDateString()}
-                      </span>
-                    </td>
-                    <td className="py-4 pr-4">
-                      <span className="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">
-                        {j.category}
-                      </span>
-                    </td>
-                    <td className="py-4 pr-4 font-bold text-emerald-400">
-                      ${j.budget} ({j.budgetType})
-                    </td>
-                    <td className="py-4 pr-4 font-semibold text-indigo-300">
-                      {j.proposalsCount || 0} bids
-                    </td>
-                    <td className="py-4 pr-4">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                        j.status === 'open' ? 'bg-emerald-500/20 text-emerald-300' :
-                        j.status === 'in_progress' ? 'bg-amber-500/20 text-amber-300' :
-                        'bg-slate-800 text-slate-400'
-                      }`}>
-                        {j.status}
-                      </span>
-                    </td>
-                    <td className="py-4 text-right space-x-2">
+                  <div
+                    key={j._id}
+                    className="p-5 rounded-2xl bg-[#F4E8D5]/60 border border-[#E5D7C5] hover:border-[#16A085]/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div className="space-y-1 flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <Link to={`/jobs/${j._id}`} className="font-bold text-sm text-[#3B3028] hover:text-[#16A085] truncate">
+                          {j.title}
+                        </Link>
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                          j.status === 'open' ? 'bg-[#16A085]/15 text-[#12806A]' : 'bg-[#F4E8D5] text-[#75685C]'
+                        }`}>
+                          {j.status}
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#75685C]">
+                        Budget: <span className="font-bold text-[#16A085]">₹{j.budget?.toLocaleString()}</span> • {j.proposalsCount || 0} Proposals
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
                       <Link
                         to={`/jobs/${j._id}`}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-indigo-600/20 text-indigo-300 hover:bg-indigo-600 hover:text-white transition-all font-semibold"
+                        className="px-3 py-1.5 rounded-xl bg-[#FFFDF8] hover:bg-[#F4E8D5] border border-[#E5D7C5] text-xs font-semibold text-[#3B3028]"
                       >
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>View / Bids</span>
+                        Manage
                       </Link>
                       <button
                         onClick={() => handleDeleteJob(j._id)}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-950/30 transition-colors"
+                        className="p-2 rounded-xl text-[#75685C] hover:text-[#c26547] hover:bg-[#faece5] transition-colors"
                         title="Delete Job"
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-
-      {/* Active Contracts Summary */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-white">Active Milestone Contracts</h2>
-          <Link to="/contracts" className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
-            <span>View All Contracts</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
         </div>
 
-        {contracts.length === 0 ? (
-          <p className="text-xs text-slate-400 py-4">No active contracts yet. Accept a candidate proposal to start one!</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {contracts.slice(0, 4).map((c) => (
-              <div key={c._id} className="bg-slate-800/50 border border-slate-700/60 p-4 rounded-2xl flex items-center justify-between">
-                <div>
-                  <h4 className="text-sm font-bold text-white line-clamp-1">{c.job?.title}</h4>
-                  <p className="text-xs text-indigo-300 mt-0.5">Freelancer: {c.freelancer?.name}</p>
-                  <span className="text-xs font-bold text-emerald-400">${c.amount}</span>
-                </div>
-                <Link
-                  to={`/contracts/${c._id}`}
-                  className="px-3 py-1.5 rounded-xl bg-indigo-600/20 text-indigo-300 hover:bg-indigo-600 hover:text-white text-xs font-semibold transition-all"
-                >
-                  Manage
-                </Link>
+        {/* Right Column: Active Contracts */}
+        <aside className="space-y-6">
+          <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 shadow-warm-xl space-y-4">
+            <h3 className="text-sm font-bold text-[#3B3028] uppercase tracking-wider font-display flex items-center gap-2">
+              <FileCheck className="w-4 h-4 text-[#16A085]" />
+              <span>Active Contracts ({contracts.length})</span>
+            </h3>
+
+            {contracts.length === 0 ? (
+              <div className="py-8 text-center text-xs text-[#75685C]">
+                No active contracts in progress.
               </div>
-            ))}
+            ) : (
+              <div className="space-y-3">
+                {contracts.slice(0, 4).map((c) => (
+                  <Link
+                    key={c._id}
+                    to={`/contracts/${c._id}`}
+                    className="block p-4 rounded-2xl bg-[#F4E8D5]/60 border border-[#E5D7C5] hover:border-[#16A085] transition-all space-y-1"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-bold text-xs text-[#3B3028] truncate">{c.job?.title || 'Contract'}</h4>
+                      <span className="text-xs font-bold text-[#16A085]">₹{c.totalAmount?.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-[#75685C]">
+                      <span>{c.freelancer?.name}</span>
+                      <span className="capitalize font-semibold text-[#12806A]">{c.status}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            <Link
+              to="/contracts"
+              className="block w-full text-center py-2 text-xs font-bold text-[#16A085] hover:text-[#12806A] border-t border-[#E5D7C5] pt-3"
+            >
+              View All Contracts →
+            </Link>
           </div>
-        )}
+        </aside>
+
       </div>
 
     </div>

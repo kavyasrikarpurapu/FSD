@@ -44,7 +44,7 @@ const jobSchema = new mongoose.Schema({
   budget: {
     type: Number,
     required: [true, 'Budget amount is required'],
-    min: [5, 'Budget must be at least $5']
+    min: [5, 'Budget must be at least ₹5']
   },
   experienceLevel: {
     type: String,

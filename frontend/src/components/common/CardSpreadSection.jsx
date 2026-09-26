@@ -21,12 +21,12 @@ export const CardSpreadSection = () => {
       category: 'AI Engineering',
       description: 'Production RAG pipelines, fine-tuned agentic models, LangChain, and enterprise neural integrations.',
       badge: 'High Demand',
-      rate: '$85 – $150/hr',
+      rate: '₹1,800 – ₹3,500/hr',
       meta: '42+ Verified Pros',
       actionText: 'Browse AI Experts',
       icon: BrainCircuit,
-      iconBg: 'bg-emerald-600/30 text-emerald-400 border border-emerald-500/30',
-      glowColor: 'bg-emerald-500/20'
+      iconBg: 'bg-[#16A085]/15 text-[#16A085] border border-[#16A085]/20',
+      glowColor: 'bg-[#16A085]/10'
     },
     {
       id: 'fullstack',
@@ -34,25 +34,25 @@ export const CardSpreadSection = () => {
       category: 'Web & Systems',
       description: 'Scalable React, Next.js, Node.js microservices, MongoDB Atlas clustering, and high-concurrency backends.',
       badge: 'Top Rated',
-      rate: '$65 – $120/hr',
+      rate: '₹1,500 – ₹2,800/hr',
       meta: '98+ Verified Pros',
       actionText: 'Explore Engineers',
       icon: Code2,
-      iconBg: 'bg-indigo-600/30 text-indigo-400 border border-indigo-500/30',
-      glowColor: 'bg-indigo-500/20'
+      iconBg: 'bg-[#16A085]/15 text-[#16A085] border border-[#16A085]/20',
+      glowColor: 'bg-[#16A085]/10'
     },
     {
       id: 'uiux',
-      title: 'Design Systems & Web3 Interfaces',
+      title: 'Design Systems & Modern Interfaces',
       category: 'Product Design',
       description: 'Interactive Figma design systems, motion prototyping, Tailwind design tokens, and user flow architectures.',
       badge: '99% Success',
-      rate: '$55 – $110/hr',
+      rate: '₹1,200 – ₹2,400/hr',
       meta: '64+ Verified Pros',
       actionText: 'Find Designers',
       icon: Palette,
-      iconBg: 'bg-purple-600/30 text-purple-400 border border-purple-500/30',
-      glowColor: 'bg-purple-500/20'
+      iconBg: 'bg-[#D97757]/15 text-[#D97757] border border-[#D97757]/20',
+      glowColor: 'bg-[#D97757]/10'
     },
     {
       id: 'devops',
@@ -60,12 +60,12 @@ export const CardSpreadSection = () => {
       category: 'Cloud Architecture',
       description: 'Automated CI/CD pipelines, Docker orchestration, AWS/GCP infrastructure as code, and zero-downtime clusters.',
       badge: 'Enterprise',
-      rate: '$75 – $140/hr',
+      rate: '₹1,600 – ₹3,200/hr',
       meta: '38+ Verified Pros',
       actionText: 'Hire DevOps',
       icon: Cloud,
-      iconBg: 'bg-amber-600/30 text-amber-400 border border-amber-500/30',
-      glowColor: 'bg-amber-500/20'
+      iconBg: 'bg-[#D6A85F]/15 text-[#936d31] border border-[#D6A85F]/30',
+      glowColor: 'bg-[#D6A85F]/10'
     }
   ];
 
@@ -83,29 +83,29 @@ export const CardSpreadSection = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="bg-gradient-to-b from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl relative overflow-hidden">
+      <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 sm:p-10 lg:p-12 shadow-warm-xl relative overflow-hidden">
         
-        {/* Glow ambient backdrops */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none -z-0" />
-        <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none -z-0" />
+        {/* Glow ambient backdrops in warm gold and emerald */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#D6A85F]/10 rounded-full blur-3xl pointer-events-none -z-0" />
+        <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-[#16A085]/08 rounded-full blur-3xl pointer-events-none -z-0" />
 
         {/* Section Header */}
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-4 relative z-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-2 shadow-glow">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-              <span>React Bits Pro &bull; Interactive Card Spread</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#16A085]/10 border border-[#16A085]/20 text-[#12806A] text-xs font-bold mb-2 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-[#16A085]" />
+              <span>Interactive Specialization Deck</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#3B3028] tracking-tight font-display">
               Featured Specialization Decks
             </h2>
-            <p className="text-sm text-slate-400 mt-2 max-w-2xl leading-relaxed">
-              Hover or tap the deck to fan out verified service categories, hourly market benchmarks, and talent rosters.
+            <p className="text-sm text-[#75685C] mt-2 max-w-2xl leading-relaxed">
+              Hover or tap the deck to fan out verified service categories, hourly market benchmarks in INR, and talent rosters.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-slate-300 bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700/60 flex-shrink-0">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="flex items-center gap-2 text-xs text-[#12806A] bg-[#F4E8D5] px-4 py-2 rounded-2xl border border-[#E5D7C5] flex-shrink-0 font-bold">
+            <span className="w-2 h-2 rounded-full bg-[#16A085] animate-pulse" />
             <span>Hover / Click to spread cards</span>
           </div>
         </div>

@@ -38,7 +38,6 @@ const MessagesPage = () => {
           if (found) {
             setActiveUser(found.user);
           } else {
-            // Load user data
             const userRes = await api.get(`/freelancers/${targetUserId}`).catch(() => null);
             if (userRes && userRes.success && userRes.freelancer) {
               setActiveUser(userRes.freelancer);
@@ -59,12 +58,13 @@ const MessagesPage = () => {
   const fetchMessages = async (partnerId) => {
     if (!partnerId) return;
     try {
-      const res = await api.get(`/messages/${partnerId}`);
+      const res = await api.get(`/messages/conversation/${partnerId}`);
       if (res.success) {
         setMessages(res.messages || []);
+        setTimeout(scrollToBottom, 50);
       }
     } catch (err) {
-      console.error('Fetch messages error:', err);
+      console.error('Messages error:', err);
     }
   };
 
@@ -75,134 +75,141 @@ const MessagesPage = () => {
   useEffect(() => {
     if (activeUser?._id) {
       fetchMessages(activeUser._id);
-      const interval = setInterval(() => fetchMessages(activeUser._id), 5000);
+      const interval = setInterval(() => fetchMessages(activeUser._id), 4000);
       return () => clearInterval(interval);
     }
   }, [activeUser?._id]);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!inputText.trim() || !activeUser?._id) return;
+    if (!inputText.trim() || !activeUser?._id || sending) return;
 
     setSending(true);
-    const messageToSend = inputText.trim();
+    const tempText = inputText;
     setInputText('');
 
     try {
       const res = await api.post('/messages', {
         receiverId: activeUser._id,
-        text: messageToSend,
+        content: tempText,
         jobId: jobId || undefined,
         contractId: contractId || undefined
       });
 
-      if (res.success && res.message) {
-        setMessages(prev => [...prev, res.message]);
+      if (res.success) {
+        setMessages((prev) => [...prev, res.message]);
+        setTimeout(scrollToBottom, 50);
         fetchConversations();
       }
     } catch (err) {
-      console.error('Send message error:', err);
+      console.error('Send error:', err);
     } finally {
       setSending(false);
     }
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl h-[750px] grid grid-cols-1 md:grid-cols-3">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl overflow-hidden shadow-warm-xl grid grid-cols-1 md:grid-cols-12 min-h-[620px]">
         
-        {/* Conversations Sidebar */}
-        <div className="border-r border-slate-800 flex flex-col bg-slate-950/40">
-          <div className="p-4 border-b border-slate-800">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <MessageSquare className="w-5 h-5 text-indigo-400" />
+        {/* Left Side: Conversation Threads */}
+        <div className="md:col-span-4 border-r border-[#E5D7C5] flex flex-col bg-[#F4E8D5]/40">
+          <div className="p-5 border-b border-[#E5D7C5] flex items-center justify-between">
+            <h2 className="text-base font-bold text-[#3B3028] font-display flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-[#16A085]" />
               <span>Direct Messages</span>
             </h2>
           </div>
 
-          <div className="flex-1 overflow-y-auto divide-y divide-slate-800/40">
-            {conversations.length === 0 ? (
-              <div className="p-8 text-center text-xs text-slate-500">
-                No conversations yet. Reach out to any client or freelancer to begin!
+          <div className="flex-1 overflow-y-auto divide-y divide-[#E5D7C5]">
+            {loading ? (
+              <div className="p-8 text-center text-xs text-[#75685C]">
+                Loading conversation threads...
+              </div>
+            ) : conversations.length === 0 ? (
+              <div className="p-8 text-center text-xs text-[#75685C] space-y-2">
+                <p>No active conversations yet.</p>
+                <p className="text-[11px] text-[#9C8E80]">Messages start automatically when hiring or proposing.</p>
               </div>
             ) : (
               conversations.map((c) => {
                 const isSelected = activeUser?._id === c.user?._id;
                 return (
-                  <div
+                  <button
                     key={c.user?._id}
                     onClick={() => setActiveUser(c.user)}
-                    className={`p-4 flex items-center gap-3 cursor-pointer transition-colors ${
-                      isSelected ? 'bg-indigo-950/40 border-l-4 border-indigo-500' : 'hover:bg-slate-800/40'
+                    className={`w-full p-4 text-left transition-colors flex items-start gap-3 ${
+                      isSelected ? 'bg-[#FFFDF8] border-l-4 border-l-[#16A085]' : 'hover:bg-[#F4E8D5]/80'
                     }`}
                   >
                     <img
                       src={c.user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${c.user?.name}`}
                       alt={c.user?.name}
-                      className="w-10 h-10 rounded-xl object-cover border border-slate-700"
+                      className="w-10 h-10 rounded-xl object-cover border border-[#E5D7C5] bg-[#FFFDF8]"
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-xs font-bold text-white truncate">{c.user?.name}</h4>
-                        <span className="text-[10px] text-slate-500">
-                          {c.lastMessageDate ? new Date(c.lastMessageDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
+                      <div className="flex items-center justify-between mb-0.5">
+                        <h4 className="font-bold text-xs text-[#3B3028] truncate">{c.user?.name}</h4>
+                        <span className="text-[10px] text-[#9C8E80]">
+                          {c.lastMessage?.createdAt && new Date(c.lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-400 truncate mt-0.5">{c.lastMessage || 'Connected'}</p>
+                      <p className="text-xs text-[#75685C] truncate">
+                        {c.lastMessage?.content || 'Started conversation'}
+                      </p>
                     </div>
-                  </div>
+                  </button>
                 );
               })
             )}
           </div>
         </div>
 
-        {/* Chat Thread Area */}
-        <div className="md:col-span-2 flex flex-col bg-slate-900/60">
-          
+        {/* Right Side: Active Chat View */}
+        <div className="md:col-span-8 flex flex-col bg-[#FFFDF8]">
           {activeUser ? (
             <>
-              {/* Header */}
-              <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
+              {/* Partner Header */}
+              <div className="p-4 sm:p-5 border-b border-[#E5D7C5] flex items-center justify-between bg-[#FFFDF8]">
                 <div className="flex items-center gap-3">
                   <img
                     src={activeUser.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${activeUser.name}`}
                     alt={activeUser.name}
-                    className="w-10 h-10 rounded-xl object-cover border border-slate-700"
+                    className="w-10 h-10 rounded-xl object-cover border border-[#E5D7C5] bg-[#F4E8D5]"
                   />
                   <div>
-                    <h3 className="text-sm font-bold text-white">{activeUser.name}</h3>
-                    <p className="text-xs text-indigo-300">{activeUser.title || activeUser.role}</p>
+                    <h3 className="font-bold text-sm text-[#3B3028] font-display">{activeUser.name}</h3>
+                    <p className="text-xs text-[#16A085] font-semibold">{activeUser.title || activeUser.role}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Messages Content */}
-              <div className="flex-1 p-5 overflow-y-auto space-y-4">
+              {/* Messages Body */}
+              <div className="flex-1 p-6 overflow-y-auto space-y-4 max-h-[480px]">
                 {messages.length === 0 ? (
-                  <div className="text-center py-20 text-xs text-slate-500">
-                    This is the start of your message history with <strong className="text-white">{activeUser.name}</strong>.
+                  <div className="py-20 text-center text-xs text-[#75685C]">
+                    Start the discussion with {activeUser.name} regarding deliverables, milestones, or questions.
                   </div>
                 ) : (
                   messages.map((m) => {
-                    const isMe = m.sender?._id === user?._id || m.sender === user?._id;
+                    const isMine = m.sender?._id === user?._id || m.sender === user?._id;
                     return (
-                      <div key={m._id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-md p-3.5 rounded-2xl text-xs ${
-                          isMe
-                            ? 'bg-indigo-600 text-white rounded-br-sm shadow-glow'
-                            : 'bg-slate-800 text-slate-200 rounded-bl-sm border border-slate-700/80'
-                        }`}>
-                          <p className="leading-relaxed whitespace-pre-line">{m.text}</p>
-                          <span className={`text-[10px] block mt-1.5 ${isMe ? 'text-indigo-200' : 'text-slate-500'} text-right`}>
-                            {new Date(m.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </span>
+                      <div
+                        key={m._id}
+                        className={`flex flex-col ${isMine ? 'items-end' : 'items-start'}`}
+                      >
+                        <div
+                          className={`max-w-[78%] rounded-2xl px-4 py-2.5 text-xs sm:text-sm leading-relaxed ${
+                            isMine
+                              ? 'bg-[#16A085] text-white rounded-br-none shadow-sm'
+                              : 'bg-[#F4E8D5] text-[#3B3028] rounded-bl-none border border-[#E5D7C5]'
+                          }`}
+                        >
+                          {m.content}
                         </div>
+                        <span className="text-[10px] text-[#9C8E80] mt-1 px-1">
+                          {new Date(m.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
                       </div>
                     );
                   })
@@ -211,34 +218,34 @@ const MessagesPage = () => {
               </div>
 
               {/* Message Input Box */}
-              <form onSubmit={handleSendMessage} className="p-4 border-t border-slate-800 flex items-center gap-3 bg-slate-900">
+              <form onSubmit={handleSendMessage} className="p-4 border-t border-[#E5D7C5] flex items-center gap-2 bg-[#FFFDF8]">
                 <input
                   type="text"
-                  placeholder={`Message ${activeUser.name}...`}
+                  placeholder={`Write a message to ${activeUser.name}...`}
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                  className="flex-1 bg-[#FFFDF8] border border-[#E5D7C5] rounded-xl px-4 py-2.5 text-xs sm:text-sm text-[#3B3028] placeholder-[#9C8E80] focus:outline-none focus:border-[#16A085]"
                 />
                 <button
                   type="submit"
-                  disabled={sending || !inputText.trim()}
-                  className="p-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-glow transition-all disabled:opacity-50"
+                  disabled={!inputText.trim() || sending}
+                  className="btn-primary py-2.5 px-5 text-xs font-bold shadow-warm-sm flex items-center gap-1.5"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Send</span>
                 </button>
               </form>
             </>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-500 space-y-2">
-              <MessageSquare className="w-12 h-12 text-slate-700" />
-              <p className="text-sm font-semibold text-slate-400">Select a conversation to start chatting</p>
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-[#75685C] space-y-2">
+              <MessageSquare className="w-10 h-10 text-[#D5C3AE]" />
+              <h3 className="font-bold text-base text-[#3B3028] font-display">No Conversation Selected</h3>
+              <p className="text-xs">Choose a message thread on the left to view notes and chats.</p>
             </div>
           )}
-
         </div>
 
       </div>
-
     </div>
   );
 };

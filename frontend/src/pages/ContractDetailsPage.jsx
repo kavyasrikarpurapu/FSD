@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import { 
   CheckCircle2, 
   Clock, 
-  DollarSign, 
   ShieldCheck, 
   ArrowLeft, 
   UploadCloud, 
@@ -66,8 +65,8 @@ const ContractDetailsPage = () => {
   if (loading) {
     return (
       <div className="max-w-5xl mx-auto px-4 py-20 text-center">
-        <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-sm text-slate-400">Loading contract details...</p>
+        <div className="w-12 h-12 border-4 border-[#16A085] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-sm text-[#75685C]">Loading escrow contract details...</p>
       </div>
     );
   }
@@ -75,175 +74,253 @@ const ContractDetailsPage = () => {
   if (error || !contract) {
     return (
       <div className="max-w-md mx-auto px-4 py-20 text-center space-y-4">
-        <AlertCircle className="w-12 h-12 text-red-400 mx-auto" />
-        <h2 className="text-xl font-bold text-white">Contract Error</h2>
-        <p className="text-xs text-slate-400">{error || 'Unable to access this contract.'}</p>
-        <Link to="/contracts" className="inline-block px-4 py-2 bg-indigo-600 rounded-xl text-xs font-semibold text-white">
+        <AlertCircle className="w-12 h-12 text-[#c26547] mx-auto" />
+        <h2 className="text-xl font-bold text-[#3B3028] font-display">Contract Not Found</h2>
+        <p className="text-xs text-[#75685C]">{error || 'Unable to find this contract.'}</p>
+        <Link to="/contracts" className="btn-primary inline-flex py-2 px-4 text-xs mx-auto">
           Back to Contracts
         </Link>
       </div>
     );
   }
 
-  const isClient = user?._id === contract.client?._id;
-  const isFreelancer = user?._id === contract.freelancer?._id;
-  const otherUser = isClient ? contract.freelancer : contract.client;
+  const isClient = user && contract.client?._id === user._id;
+  const isFreelancer = user && contract.freelancer?._id === user._id;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
       {/* Back Button */}
-      <Link to="/contracts" className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors">
+      <Link to="/contracts" className="inline-flex items-center gap-1.5 text-xs text-[#75685C] hover:text-[#16A085] transition-colors font-bold">
         <ArrowLeft className="w-4 h-4" />
-        <span>Back to All Contracts</span>
+        <span>Back to Contracts</span>
       </Link>
 
       {successMsg && (
-        <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-800/60 flex items-center gap-3 text-xs text-emerald-300">
-          <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+        <div className="p-4 rounded-2xl bg-[#e8f8f5] border border-[#16A085]/40 flex items-center gap-3 text-xs text-[#12806A] font-semibold">
+          <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-[#16A085]" />
           <span>{successMsg}</span>
         </div>
       )}
 
-      {/* Contract Header Banner */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+      {/* Main Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-3 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                Contract ID: {contract._id.slice(-8).toUpperCase()}
+        {/* Left Column: Contract Details & Milestones */}
+        <div className="lg:col-span-2 space-y-6">
+          
+          {/* Main Card */}
+          <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 sm:p-8 space-y-6 shadow-warm-xl">
+            
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#16A085] flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4" /> Verified Escrow Contract
               </span>
-              <span className={`px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${
-                contract.status === 'completed' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
-                contract.status === 'submitted' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
-                'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+              <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                contract.status === 'completed' ? 'bg-[#16A085]/15 text-[#12806A] border border-[#16A085]/30' :
+                contract.status === 'submitted' ? 'bg-[#D97757]/15 text-[#c26547] border border-[#D97757]/30' :
+                'bg-[#D6A85F]/20 text-[#936d31] border border-[#D6A85F]/35'
               }`}>
-                {contract.status === 'completed' ? '✅ Completed & Paid' :
-                 contract.status === 'submitted' ? '⏳ Deliverable Under Review' : '🚀 In Development'}
+                {contract.status === 'completed' ? '🟢 Released & Completed' :
+                 contract.status === 'submitted' ? '🟡 Work Submitted for Review' :
+                 '🔵 In Progress'}
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
-              {contract.job?.title}
+            <h1 className="text-2xl sm:text-3xl font-black text-[#3B3028] leading-tight font-display">
+              {contract.job?.title || 'Contract Details'}
             </h1>
-          </div>
 
-          <div className="bg-slate-800/80 border border-slate-700/80 p-4 rounded-2xl text-center flex-shrink-0">
-            <span className="text-xs text-slate-400 block">Total Escrow Amount</span>
-            <span className="text-2xl font-black text-emerald-400">${contract.amount?.toLocaleString()}</span>
-          </div>
-        </div>
-
-        {/* Counterparty Box */}
-        <div className="flex items-center justify-between pt-4 border-t border-slate-800/80">
-          <div className="flex items-center gap-3">
-            <img
-              src={otherUser?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=user`}
-              alt="avatar"
-              className="w-10 h-10 rounded-xl object-cover border border-slate-700"
-            />
-            <div>
-              <span className="text-xs text-slate-400 block">{isClient ? 'Freelancer' : 'Client'}</span>
-              <span className="text-sm font-bold text-white">{otherUser?.name}</span>
-            </div>
-          </div>
-
-          <Link
-            to={`/messages?userId=${otherUser?._id}&contractId=${contract._id}`}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors"
-          >
-            <MessageSquare className="w-4 h-4" />
-            <span>Chat Directly</span>
-          </Link>
-        </div>
-
-      </div>
-
-      {/* Deliverable Status & Actions Card */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
-        <h2 className="text-xl font-bold text-white flex items-center gap-2">
-          <UploadCloud className="w-5 h-5 text-indigo-400" />
-          <span>Deliverables & Milestone Submission</span>
-        </h2>
-
-        {contract.submissionNotes || contract.submissionLink ? (
-          <div className="bg-slate-800/50 border border-slate-700/60 rounded-2xl p-5 space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-300">Submitted Deliverable</span>
-              <span className="text-[11px] text-slate-400">
-                {contract.submittedAt ? new Date(contract.submittedAt).toLocaleString() : 'Recently'}
-              </span>
-            </div>
-
-            {contract.submissionLink && (
-              <div className="pt-1">
-                <span className="text-xs text-slate-400 block mb-1">Project Link / Repo:</span>
-                <a
-                  href={contract.submissionLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-600/20 text-cyan-300 hover:bg-cyan-600/30 text-xs font-semibold border border-cyan-500/30"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  <span>{contract.submissionLink}</span>
-                </a>
+            {/* Total Budget & Status */}
+            <div className="p-5 rounded-2xl bg-[#F4E8D5]/60 border border-[#E5D7C5] flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <span className="text-xs text-[#75685C] uppercase font-bold block">Total Escrow Value</span>
+                <span className="text-2xl font-black text-[#16A085] font-display">
+                  ₹{contract.totalAmount?.toLocaleString()}
+                </span>
               </div>
-            )}
 
+              <div className="text-right">
+                <span className="text-xs text-[#75685C] uppercase font-bold block">Payment Status</span>
+                <span className="text-xs font-bold text-[#3B3028]">
+                  {contract.escrowStatus === 'released' ? 'Released to Freelancer' : 'Secured in Escrow'}
+                </span>
+              </div>
+            </div>
+
+            {/* Milestones Breakdown */}
+            <div className="space-y-4 pt-4 border-t border-[#E5D7C5]">
+              <h3 className="text-base font-bold text-[#3B3028] font-display">Contract Milestones</h3>
+              <div className="space-y-3">
+                {contract.milestones?.map((m, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-[#FFFDF8] border border-[#E5D7C5] flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs ${
+                        m.status === 'completed' ? 'bg-[#16A085]/15 text-[#16A085]' : 'bg-[#F4E8D5] text-[#75685C]'
+                      }`}>
+                        {idx + 1}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-xs text-[#3B3028]">{m.title}</h4>
+                        <p className="text-[11px] text-[#75685C]">{m.durationDays} days target</p>
+                      </div>
+                    </div>
+                    <span className="font-bold text-sm text-[#16A085] font-display">
+                      ₹{m.amount?.toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Deliverable Section */}
             {contract.submissionNotes && (
-              <div className="pt-2">
-                <span className="text-xs text-slate-400 block mb-1">Freelancer Notes:</span>
-                <p className="text-xs text-slate-200 whitespace-pre-line bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+              <div className="p-5 rounded-2xl bg-[#F4E8D5]/70 border border-[#E5D7C5] space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-bold text-xs text-[#3B3028] flex items-center gap-1.5 uppercase tracking-wider">
+                    <UploadCloud className="w-4 h-4 text-[#16A085]" /> Submitted Deliverables
+                  </h4>
+                  <span className="text-[10px] text-[#9C8E80]">
+                    {contract.submittedAt && new Date(contract.submittedAt).toLocaleDateString()}
+                  </span>
+                </div>
+
+                <p className="text-xs text-[#75685C] whitespace-pre-line leading-relaxed">
                   {contract.submissionNotes}
                 </p>
+
+                {contract.submissionLink && (
+                  <a
+                    href={contract.submissionLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#16A085] hover:text-[#12806A]"
+                  >
+                    <span>View Repository / Live Demo</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                )}
               </div>
             )}
+
           </div>
-        ) : (
-          <div className="p-6 text-center bg-slate-800/30 rounded-2xl text-xs text-slate-400">
-            No deliverables submitted yet for this contract.
-          </div>
-        )}
-
-        {/* Action Buttons based on User Role */}
-        <div className="flex flex-wrap items-center justify-end gap-3 pt-4 border-t border-slate-800">
-          
-          {/* Freelancer Submit Work */}
-          {isFreelancer && contract.status === 'active' && (
-            <button
-              onClick={() => setDeliverableModalOpen(true)}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold text-xs shadow-glow transition-all"
-            >
-              <UploadCloud className="w-4 h-4" />
-              <span>Submit Work Deliverable</span>
-            </button>
-          )}
-
-          {/* Client Approve & Release Payment */}
-          {isClient && contract.status === 'submitted' && (
-            <button
-              onClick={handleApproveAndComplete}
-              disabled={approving}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-glow transition-all"
-            >
-              <CheckCircle2 className="w-4 h-4" />
-              <span>{approving ? 'Releasing Escrow...' : 'Approve Work & Release Payment ($' + contract.amount + ')'}</span>
-            </button>
-          )}
-
-          {/* Leave Feedback button when completed */}
-          {contract.status === 'completed' && (
-            <button
-              onClick={() => setReviewModalOpen(true)}
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold border border-amber-500/30 transition-colors"
-            >
-              <Star className="w-4 h-4" />
-              <span>Leave Feedback & Review</span>
-            </button>
-          )}
 
         </div>
+
+        {/* Right Sidebar: Verified Marketplace Escrow Panel */}
+        <aside className="space-y-6">
+          
+          {/* Escrow Visualization Panel */}
+          <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 sm:p-7 shadow-warm-xl relative space-y-5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#16A085] animate-pulse" />
+                <span className="text-xs font-bold text-[#3B3028]">Verified Marketplace Escrow</span>
+              </div>
+              <span className="px-2.5 py-1 rounded-full bg-[#16A085]/10 border border-[#16A085]/25 text-[#12806A] text-[10px] font-bold uppercase tracking-wider">
+                INSTANT RELEASE
+              </span>
+            </div>
+
+            {/* Milestone Status */}
+            <div className="bg-[#F4E8D5]/60 border border-[#E5D7C5] rounded-2xl p-4 space-y-2">
+              <span className="text-[11px] text-[#75685C] uppercase font-bold block">Current Stage</span>
+              <div className="flex items-center justify-between text-xs font-bold text-[#3B3028]">
+                <span>Milestone 2: Production API & Escrow</span>
+                <span className="text-[#16A085] font-black font-display">₹{contract.totalAmount?.toLocaleString() || '1,200.00'}</span>
+              </div>
+              <div className="w-full bg-[#E5D7C5] rounded-full h-2 overflow-hidden">
+                <div className={`h-2 rounded-full ${contract.status === 'completed' ? 'w-full bg-[#16A085]' : 'w-[85%] bg-gradient-to-r from-[#16A085] to-[#D6A85F]'}`} />
+              </div>
+              <div className="flex items-center justify-between text-[11px] text-[#75685C] pt-1">
+                <span>{contract.status === 'submitted' ? 'Deliverable Submitted' : 'In Progress'}</span>
+                <span className="text-[#12806A] font-bold flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#16A085]" />
+                  {contract.status === 'completed' ? 'Client Approved' : 'Verified'}
+                </span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            {isClient && contract.status === 'submitted' && (
+              <button
+                onClick={handleApproveAndComplete}
+                disabled={approving}
+                className="btn-primary w-full py-3 text-xs font-bold shadow-warm-md"
+              >
+                <CheckCircle2 className="w-4 h-4" />
+                <span>{approving ? 'Releasing...' : 'Approve Work & Release Escrow'}</span>
+              </button>
+            )}
+
+            {isFreelancer && contract.status === 'active' && (
+              <button
+                onClick={() => setDeliverableModalOpen(true)}
+                className="btn-primary w-full py-3 text-xs font-bold shadow-warm-md"
+              >
+                <UploadCloud className="w-4 h-4" />
+                <span>Submit Work Deliverables</span>
+              </button>
+            )}
+
+            {contract.status === 'completed' && (
+              <button
+                onClick={() => setReviewModalOpen(true)}
+                className="btn-secondary w-full py-2.5 text-xs font-bold"
+              >
+                <Star className="w-3.5 h-3.5 text-[#D6A85F]" />
+                <span>Leave Feedback Review</span>
+              </button>
+            )}
+
+            <Link
+              to="/messages"
+              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#F4E8D5] hover:bg-[#E5D7C5] text-xs font-bold text-[#3B3028] transition-colors"
+            >
+              <MessageSquare className="w-4 h-4 text-[#16A085]" />
+              <span>Direct Messages</span>
+            </Link>
+
+          </div>
+
+          {/* Parties Profile */}
+          <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 space-y-4 shadow-warm-sm">
+            <h3 className="text-xs font-bold text-[#3B3028] uppercase tracking-wider font-display">
+              Contract Parties
+            </h3>
+
+            <div className="space-y-3 text-xs">
+              <div className="flex items-center gap-3">
+                <img
+                  src={contract.client?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${contract.client?.name}`}
+                  alt="Client"
+                  className="w-10 h-10 rounded-xl object-cover border border-[#E5D7C5]"
+                />
+                <div>
+                  <span className="text-[10px] text-[#9C8E80] block">Client</span>
+                  <p className="font-bold text-[#3B3028]">{contract.client?.name}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 pt-2 border-t border-[#E5D7C5]">
+                <img
+                  src={contract.freelancer?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${contract.freelancer?.name}`}
+                  alt="Freelancer"
+                  className="w-10 h-10 rounded-xl object-cover border border-[#E5D7C5]"
+                />
+                <div>
+                  <span className="text-[10px] text-[#9C8E80] block">Freelancer</span>
+                  <p className="font-bold text-[#3B3028]">{contract.freelancer?.name}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </aside>
+
       </div>
 
       {/* Deliverable Modal */}
@@ -254,7 +331,7 @@ const ContractDetailsPage = () => {
           onClose={() => setDeliverableModalOpen(false)}
           onSuccess={() => {
             fetchContract();
-            setSuccessMsg('Work submitted successfully! Client has been notified.');
+            setDeliverableModalOpen(false);
           }}
         />
       )}
@@ -267,7 +344,7 @@ const ContractDetailsPage = () => {
           onClose={() => setReviewModalOpen(false)}
           onSuccess={() => {
             fetchContract();
-            setSuccessMsg('Thank you! Your feedback has been recorded in MongoDB Atlas.');
+            setReviewModalOpen(false);
           }}
         />
       )}

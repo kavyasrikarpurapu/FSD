@@ -47,7 +47,7 @@ exports.submitProposal = async (req, res) => {
     await Notification.create({
       user: job.client,
       title: 'New Proposal Received',
-      message: `${req.user.name} submitted a bid of $${bidAmount} on "${job.title}"`,
+      message: `${req.user.name} submitted a bid of ₹${bidAmount} on "${job.title}"`,
       link: `/jobs/${job._id}`,
       type: 'proposal'
     });
@@ -180,7 +180,7 @@ exports.acceptProposal = async (req, res) => {
     await Notification.create({
       user: proposal.freelancer._id,
       title: 'Proposal Accepted! 🎉',
-      message: `Congratulations! ${req.user.name} accepted your proposal on "${job.title}" for $${proposal.bidAmount}.`,
+      message: `Congratulations! ${req.user.name} accepted your proposal on "${job.title}" for ₹${proposal.bidAmount}.`,
       link: `/contracts/${contract._id}`,
       type: 'contract'
     });

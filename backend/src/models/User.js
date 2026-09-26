@@ -42,6 +42,9 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function() {
+  if (!this.avatar || this.avatar.trim() === '') {
+    this.avatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(this.name || 'user')}`;
+  }
   if (!this.isModified('password')) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);

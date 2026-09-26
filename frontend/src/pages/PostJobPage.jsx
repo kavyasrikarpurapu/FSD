@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PlusCircle, DollarSign, Clock, Tag, Briefcase, Sparkles, AlertCircle } from 'lucide-react';
+import { PlusCircle, Clock, Tag, Briefcase, Sparkles, AlertCircle, X, ShieldCheck } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
@@ -12,8 +12,7 @@ const CATEGORIES = [
   'DevOps & Cloud',
   'Content & Copywriting',
   'Digital Marketing & SEO',
-  'Data Analytics & BI',
-  'Cybersecurity & Network'
+  'Data Analytics & BI'
 ];
 
 const PostJobPage = () => {
@@ -24,9 +23,9 @@ const PostJobPage = () => {
   const [category, setCategory] = useState('Web Development');
   const [description, setDescription] = useState('');
   const [skillInput, setSkillInput] = useState('');
-  const [skillsRequired, setSkillsRequired] = useState(['React', 'Node.js']);
+  const [skillsRequired, setSkillsRequired] = useState(['React 19', 'Node.js', 'MongoDB']);
   const [budgetType, setBudgetType] = useState('fixed');
-  const [budget, setBudget] = useState('');
+  const [budget, setBudget] = useState('45000');
   const [experienceLevel, setExperienceLevel] = useState('Intermediate');
   const [projectDuration, setProjectDuration] = useState('1 to 4 weeks');
   const [featured, setFeatured] = useState(false);
@@ -61,7 +60,7 @@ const PostJobPage = () => {
     }
 
     if (!budget || Number(budget) <= 0) {
-      setError('Please enter a valid budget amount.');
+      setError('Please specify a valid budget amount.');
       return;
     }
 
@@ -81,7 +80,7 @@ const PostJobPage = () => {
         featured
       });
 
-      if (res.success && res.job) {
+      if (res.success) {
         navigate(`/jobs/${res.job._id}`);
       }
     } catch (err) {
@@ -92,139 +91,153 @@ const PostJobPage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
-      <div className="mb-8 text-center sm:text-left">
-        <span className="text-xs font-semibold uppercase tracking-wider text-indigo-400">
-          Client Workspace
-        </span>
-        <h1 className="text-3xl font-extrabold text-white mt-1">
-          Post a New Project Opportunity
-        </h1>
-        <p className="text-sm text-slate-400 mt-1">
-          Reach thousands of top-tier verified freelancers in seconds.
+      {/* Page Header */}
+      <div className="space-y-2 border-b border-[#E5D7C5] pb-6">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#16A085]/10 text-[#12806A] text-xs font-bold border border-[#16A085]/20">
+          <Sparkles className="w-3.5 h-3.5 text-[#16A085]" />
+          <span>Client Project Creator</span>
+        </div>
+        <h1 className="text-3xl sm:text-4xl font-black text-[#3B3028] font-display">Post a New Project</h1>
+        <p className="text-sm text-[#75685C]">
+          Reach thousands of vetted freelancers and receive proposals with escrow security.
         </p>
       </div>
 
       {error && (
-        <div className="mb-6 p-3.5 rounded-xl bg-red-950/40 border border-red-800/60 flex items-center gap-3 text-xs text-red-300">
-          <AlertCircle className="w-4 h-4 flex-shrink-0" />
+        <div className="p-4 rounded-2xl bg-[#faece5] border border-[#f6d9cd] flex items-center gap-3 text-xs text-[#c26547]">
+          <AlertCircle className="w-5 h-5 flex-shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 space-y-8 shadow-2xl">
+      {/* Main Form */}
+      <form onSubmit={handleSubmit} className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl p-6 sm:p-10 shadow-warm-xl space-y-8">
         
-        {/* Title */}
-        <div>
-          <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+        {/* Project Title */}
+        <div className="space-y-2">
+          <label className="block text-xs font-bold text-[#3B3028] uppercase tracking-wider font-display">
             Project Title *
           </label>
           <input
             type="text"
             required
-            placeholder="e.g. Build an AI-Powered Document Search SaaS with React & Python"
+            placeholder="e.g. Build an AI-Powered Healthcare Dashboard with React & Python"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+            className="w-full bg-[#FFFDF8] border border-[#E5D7C5] rounded-xl px-4 py-3 text-sm text-[#3B3028] placeholder-[#9C8E80] focus:outline-none focus:border-[#16A085] shadow-inner"
           />
-          <span className="text-[11px] text-slate-500 mt-1 block">A clear, concise title attracts better proposals.</span>
         </div>
 
-        {/* Category & Experience Level */}
+        {/* Category & Experience Level Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-              Category *
+          <div className="space-y-2">
+            <label className="block text-xs font-bold text-[#3B3028] uppercase tracking-wider font-display">
+              Category / Domain *
             </label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500"
+              className="w-full bg-[#FFFDF8] border border-[#E5D7C5] rounded-xl px-4 py-3 text-sm text-[#3B3028] focus:outline-none focus:border-[#16A085]"
             >
-              {CATEGORIES.map((c) => (
-                <option key={c} value={c}>{c}</option>
+              {CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
               ))}
             </select>
           </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-              Required Experience Level
+          <div className="space-y-2">
+            <label className="block text-xs font-bold text-[#3B3028] uppercase tracking-wider font-display">
+              Required Experience Level *
             </label>
             <select
               value={experienceLevel}
               onChange={(e) => setExperienceLevel(e.target.value)}
-              className="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500"
+              className="w-full bg-[#FFFDF8] border border-[#E5D7C5] rounded-xl px-4 py-3 text-sm text-[#3B3028] focus:outline-none focus:border-[#16A085]"
             >
               <option value="Entry Level">Entry Level</option>
-              <option value="Intermediate">Intermediate Level</option>
-              <option value="Expert">Expert Level</option>
+              <option value="Intermediate">Intermediate (Recommended)</option>
+              <option value="Expert">Expert / Architect</option>
             </select>
           </div>
         </div>
 
         {/* Description */}
-        <div>
-          <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-            Detailed Project Description *
+        <div className="space-y-2">
+          <label className="block text-xs font-bold text-[#3B3028] uppercase tracking-wider font-display">
+            Detailed Project Description & Scope *
           </label>
           <textarea
             required
             rows={6}
-            placeholder="Describe the scope, deliverables, tech stack requirements, milestones, and expected timelines in detail..."
+            placeholder="Describe your goals, tech stack preferences, deliverables, key milestones, and timeline expectations..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full bg-slate-800/90 border border-slate-700 rounded-xl p-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-y"
+            className="w-full bg-[#FFFDF8] border border-[#E5D7C5] rounded-xl p-4 text-sm text-[#3B3028] placeholder-[#9C8E80] focus:outline-none focus:border-[#16A085] shadow-inner leading-relaxed resize-none"
           />
         </div>
 
-        {/* Skills Tagging */}
-        <div>
-          <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-            Skills Required (Press Enter or comma to add)
+        {/* Skills Tag Input */}
+        <div className="space-y-2">
+          <label className="block text-xs font-bold text-[#3B3028] uppercase tracking-wider font-display">
+            Required Skills (Press Enter to add) *
           </label>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {skillsRequired.map((skill) => (
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              placeholder="e.g. Next.js, Python, Figma, Kubernetes"
+              value={skillInput}
+              onChange={(e) => setSkillInput(e.target.value)}
+              onKeyDown={handleAddSkill}
+              className="flex-1 bg-[#FFFDF8] border border-[#E5D7C5] rounded-xl px-4 py-2.5 text-sm text-[#3B3028] placeholder-[#9C8E80] focus:outline-none focus:border-[#16A085]"
+            />
+            <button
+              type="button"
+              onClick={(e) => {
+                if (skillInput.trim()) {
+                  handleAddSkill({ key: 'Enter', preventDefault: () => {} });
+                }
+              }}
+              className="px-4 py-2.5 rounded-xl bg-[#F4E8D5] hover:bg-[#E5D7C5] text-xs font-bold text-[#3B3028] transition-colors"
+            >
+              Add Skill
+            </button>
+          </div>
+
+          <div className="flex flex-wrap gap-2 pt-2">
+            {skillsRequired.map((skill, idx) => (
               <span
-                key={skill}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-indigo-600/20 text-indigo-300 border border-indigo-500/40"
+                key={idx}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#F4E8D5] text-xs font-semibold text-[#3B3028] border border-[#E5D7C5]"
               >
                 <span>{skill}</span>
                 <button
                   type="button"
                   onClick={() => handleRemoveSkill(skill)}
-                  className="text-indigo-400 hover:text-red-400 font-bold"
+                  className="text-[#75685C] hover:text-[#c26547]"
                 >
-                  ×
+                  <X className="w-3.5 h-3.5" />
                 </button>
               </span>
             ))}
           </div>
-          <input
-            type="text"
-            placeholder="Type skill and press enter (e.g. Next.js, Figma, Tailwind, AWS)"
-            value={skillInput}
-            onChange={(e) => setSkillInput(e.target.value)}
-            onKeyDown={handleAddSkill}
-            className="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
-          />
         </div>
 
-        {/* Budget & Timeline */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-slate-800">
-          <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+        {/* Budget and Duration */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-[#E5D7C5]">
+          <div className="space-y-2">
+            <label className="block text-xs font-bold text-[#3B3028] uppercase tracking-wider font-display">
               Budget Type
             </label>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => setBudgetType('fixed')}
-                className={`py-2 text-xs font-semibold rounded-xl border transition-all ${
+                className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border ${
                   budgetType === 'fixed'
-                    ? 'bg-indigo-600 border-indigo-500 text-white'
-                    : 'bg-slate-800 border-slate-700 text-slate-400'
+                    ? 'bg-[#16A085] text-white border-[#16A085]'
+                    : 'bg-[#FFFDF8] text-[#75685C] border-[#E5D7C5]'
                 }`}
               >
                 Fixed Price
@@ -232,85 +245,79 @@ const PostJobPage = () => {
               <button
                 type="button"
                 onClick={() => setBudgetType('hourly')}
-                className={`py-2 text-xs font-semibold rounded-xl border transition-all ${
+                className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border ${
                   budgetType === 'hourly'
-                    ? 'bg-indigo-600 border-indigo-500 text-white'
-                    : 'bg-slate-800 border-slate-700 text-slate-400'
+                    ? 'bg-[#16A085] text-white border-[#16A085]'
+                    : 'bg-[#FFFDF8] text-[#75685C] border-[#E5D7C5]'
                 }`}
               >
-                Hourly
+                Hourly Rate
               </button>
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-              Budget Amount ($) *
+          <div className="space-y-2">
+            <label className="block text-xs font-bold text-[#3B3028] uppercase tracking-wider font-display">
+              Budget Amount (₹) *
             </label>
             <div className="relative">
-              <span className="absolute left-3.5 top-3 text-slate-500 font-bold">$</span>
+              <span className="absolute left-3.5 top-2.5 text-[#16A085] font-bold">₹</span>
               <input
                 type="number"
                 required
-                min="5"
-                placeholder="2500"
+                min="100"
+                placeholder="45000"
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
-                className="w-full bg-slate-800/90 border border-slate-700 rounded-xl pl-8 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                className="w-full bg-[#FFFDF8] border border-[#E5D7C5] rounded-xl pl-8 pr-4 py-2.5 text-sm text-[#3B3028] font-bold focus:outline-none focus:border-[#16A085]"
               />
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-              Expected Duration
+          <div className="space-y-2">
+            <label className="block text-xs font-bold text-[#3B3028] uppercase tracking-wider font-display">
+              Estimated Duration
             </label>
-            <select
+            <input
+              type="text"
+              placeholder="e.g. 2 to 4 weeks"
               value={projectDuration}
               onChange={(e) => setProjectDuration(e.target.value)}
-              className="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500"
-            >
-              <option value="Less than 1 week">Less than 1 week</option>
-              <option value="1 to 4 weeks">1 to 4 weeks</option>
-              <option value="1 to 3 months">1 to 3 months</option>
-              <option value="3 to 6 months">3 to 6 months</option>
-            </select>
+              className="w-full bg-[#FFFDF8] border border-[#E5D7C5] rounded-xl px-4 py-2.5 text-sm text-[#3B3028] focus:outline-none focus:border-[#16A085]"
+            />
           </div>
         </div>
 
-        {/* Featured Checkbox */}
-        <div className="flex items-center gap-3 p-4 bg-slate-800/40 rounded-2xl border border-slate-800">
+        {/* Featured Toggle */}
+        <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#F4E8D5]/60 border border-[#E5D7C5]">
           <input
             type="checkbox"
             id="featured"
             checked={featured}
             onChange={(e) => setFeatured(e.target.checked)}
-            className="w-4 h-4 text-indigo-600 rounded bg-slate-900 border-slate-700 focus:ring-indigo-500"
+            className="w-4 h-4 accent-[#16A085] rounded cursor-pointer"
           />
-          <label htmlFor="featured" className="text-xs text-slate-300 cursor-pointer">
-            <strong className="text-white flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Feature this job listing
-            </strong>
-            Highlight your project on the homepage to attract 3x more proposals.
+          <label htmlFor="featured" className="text-xs text-[#3B3028] font-semibold cursor-pointer">
+            Highlight as Featured Project (Attracts 3x more senior proposals)
           </label>
         </div>
 
-        {/* Submit button */}
-        <div className="flex items-center justify-end gap-4 pt-4 border-t border-slate-800">
+        {/* Actions */}
+        <div className="flex items-center justify-end gap-4 pt-6 border-t border-[#E5D7C5]">
           <button
             type="button"
-            onClick={() => navigate('/jobs')}
-            className="px-5 py-3 rounded-xl text-xs font-semibold text-slate-400 hover:text-white"
+            onClick={() => navigate(-1)}
+            className="px-6 py-3 rounded-xl text-xs font-bold text-[#75685C] hover:text-[#3B3028] hover:bg-[#F4E8D5] transition-colors"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-bold text-sm shadow-glow transition-all disabled:opacity-50"
+            className="btn-primary py-3 px-8 text-sm font-bold shadow-warm-md"
           >
             <PlusCircle className="w-4 h-4" />
-            <span>{loading ? 'Publishing...' : 'Publish Job to MongoDB'}</span>
+            <span>{loading ? 'Publishing...' : 'Publish Project'}</span>
           </button>
         </div>
 

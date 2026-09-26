@@ -56,7 +56,7 @@ export function Gallery({
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
     renderer.setClearColor(0x000000, 0);
-    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
@@ -83,7 +83,7 @@ export function Gallery({
         }
         renderer.render(scene, camera);
       });
-      texture.encoding = THREE.sRGBEncoding;
+      texture.colorSpace = THREE.SRGBColorSpace;
       texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
       return texture;
     });

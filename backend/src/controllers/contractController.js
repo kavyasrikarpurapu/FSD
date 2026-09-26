@@ -143,7 +143,7 @@ exports.approveAndComplete = async (req, res) => {
     await Notification.create({
       user: contract.freelancer,
       title: 'Payment Released! 💰',
-      message: `Client approved your work for "${contract.job.title}". $${contract.amount} has been credited to your earnings.`,
+      message: `Client approved your work for "${contract.job.title}". ₹${contract.amount} has been credited to your earnings.`,
       link: `/contracts/${contract._id}`,
       type: 'payment'
     });

@@ -39,23 +39,23 @@ const ReviewModal = ({ contract, isOpen, onClose, onSuccess }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 shadow-2xl relative animate-in fade-in zoom-in-95">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#251E19]/60 backdrop-blur-md">
+      <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl w-full max-w-md p-6 sm:p-7 shadow-warm-xl relative animate-in fade-in zoom-in-95">
         
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          className="absolute top-5 right-5 p-2 rounded-xl text-[#75685C] hover:text-[#3B3028] hover:bg-[#F4E8D5] transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <h3 className="text-lg font-bold text-white">Leave Feedback & Review</h3>
-        <p className="text-xs text-slate-400 mt-1">
-          Share your experience working on <span className="text-indigo-300 font-medium">{contract.job?.title}</span>
+        <h3 className="text-lg font-bold text-[#3B3028] font-display">Leave Feedback & Review</h3>
+        <p className="text-xs text-[#75685C] mt-1">
+          Share your experience working on <span className="text-[#16A085] font-semibold">{contract.job?.title}</span>
         </p>
 
         {error && (
-          <div className="mt-3 p-2.5 rounded-lg bg-red-950/40 border border-red-800/60 flex items-center gap-2 text-xs text-red-300">
+          <div className="mt-3 p-3 rounded-xl bg-[#faece5] border border-[#f6d9cd] flex items-center gap-2.5 text-xs text-[#c26547]">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{error}</span>
           </div>
@@ -63,8 +63,8 @@ const ReviewModal = ({ contract, isOpen, onClose, onSuccess }) => {
 
         <form onSubmit={handleSubmit} className="mt-5 space-y-4">
           {/* Interactive Star Rating */}
-          <div className="flex flex-col items-center justify-center py-2 bg-slate-800/40 rounded-xl border border-slate-800">
-            <span className="text-xs text-slate-400 mb-2 font-medium">Select Rating</span>
+          <div className="flex flex-col items-center justify-center py-4 bg-[#F4E8D5]/60 rounded-2xl border border-[#E5D7C5]">
+            <span className="text-xs text-[#75685C] mb-2 font-semibold">Select Rating</span>
             <div className="flex items-center gap-2">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -73,26 +73,26 @@ const ReviewModal = ({ contract, isOpen, onClose, onSuccess }) => {
                   onClick={() => setRating(star)}
                   onMouseEnter={() => setHoverRating(star)}
                   onMouseLeave={() => setHoverRating(0)}
-                  className="p-1 transition-transform hover:scale-110"
+                  className="p-1 transition-transform hover:scale-125 focus:outline-none"
                 >
                   <Star
-                    className={`w-7 h-7 transition-colors ${
+                    className={`w-7 h-7 transition-all ${
                       (hoverRating || rating) >= star
-                        ? 'fill-amber-400 text-amber-400'
-                        : 'text-slate-600'
+                        ? 'fill-[#D6A85F] text-[#D6A85F] drop-shadow-[0_2px_8px_rgba(214,168,95,0.4)]'
+                        : 'text-[#D5C3AE]'
                     }`}
                   />
                 </button>
               ))}
             </div>
-            <span className="text-xs font-semibold text-amber-300 mt-1.5">
-              {rating === 5 ? '⭐⭐⭐⭐⭐ Exceptional!' : `${rating} Stars`}
+            <span className="text-xs font-bold text-[#936d31] mt-2">
+              {rating === 5 ? '★★★★★ Exceptional Quality!' : `${rating} Stars Rating`}
             </span>
           </div>
 
           {/* Review text */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+            <label className="block text-xs font-semibold text-[#3B3028] mb-1.5">
               Your Review & Comments
             </label>
             <textarea
@@ -101,22 +101,22 @@ const ReviewModal = ({ contract, isOpen, onClose, onSuccess }) => {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="How was the communication, work quality, and delivery speed?"
-              className="w-full bg-slate-800/80 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none"
+              className="w-full bg-[#FFFDF8] border border-[#E5D7C5] focus:border-[#16A085] rounded-xl p-3 text-xs text-[#3B3028] focus:outline-none resize-none transition-all shadow-inner placeholder-[#9C8E80]"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-2 pt-2">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#E5D7C5]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white"
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-[#75685C] hover:text-[#3B3028] hover:bg-[#F4E8D5] transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white shadow-glow transition-all"
+              className="btn-primary flex items-center gap-1.5 px-6 py-2.5 rounded-xl text-xs font-semibold"
             >
               <Send className="w-3.5 h-3.5" />
               <span>{loading ? 'Submitting...' : 'Submit Review'}</span>

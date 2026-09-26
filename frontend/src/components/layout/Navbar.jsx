@@ -15,7 +15,12 @@ import {
   Sparkles,
   Menu,
   X,
-  CheckCircle2
+  CheckCircle2,
+  ShieldCheck,
+  TrendingUp,
+  FolderGit2,
+  HelpCircle,
+  Globe
 } from 'lucide-react';
 import api from '../../services/api';
 
@@ -77,57 +82,78 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+    <header className="sticky top-0 z-50 bg-[#FFFDF8]/90 backdrop-blur-xl border-b border-[#E5D7C5] shadow-warm-sm transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 flex items-center justify-center shadow-glow">
-              <Briefcase className="w-5 h-5 text-white transform group-hover:rotate-6 transition-transform" />
+          {/* Brand Logo */}
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#16A085] via-[#12806A] to-[#D6A85F] flex items-center justify-center shadow-warm-md group-hover:scale-105 transition-transform duration-300">
+              <Briefcase className="w-5 h-5 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-xl tracking-tight text-white flex items-center gap-1">
-                Freelance<span className="text-indigo-400">Hub</span>
+              <span className="font-black text-xl tracking-tight text-[#3B3028] flex items-center gap-1 font-display">
+                Freelance<span className="text-[#16A085]">Hub</span>
               </span>
-              <span className="text-[10px] uppercase font-semibold tracking-wider text-indigo-300/80 -mt-1">
-                Marketplace
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#75685C] -mt-1">
+                Verified Escrow Marketplace
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
-            <Link
-              to="/jobs"
-              className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
-                isActive('/jobs')
-                  ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-              }`}
-            >
-              Browse Jobs
-            </Link>
-
+          <nav className="hidden lg:flex items-center gap-1">
             <Link
               to="/freelancers"
-              className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                 isActive('/freelancers')
-                  ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  ? 'bg-[#16A085]/10 text-[#16A085] border border-[#16A085]/20'
+                  : 'text-[#75685C] hover:text-[#3B3028] hover:bg-[#F4E8D5]/60'
               }`}
             >
               Find Talent
             </Link>
 
+            <Link
+              to="/jobs"
+              className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                isActive('/jobs')
+                  ? 'bg-[#16A085]/10 text-[#16A085] border border-[#16A085]/20'
+                  : 'text-[#75685C] hover:text-[#3B3028] hover:bg-[#F4E8D5]/60'
+              }`}
+            >
+              Find Work
+            </Link>
+
+            <Link
+              to="/jobs"
+              className="px-3.5 py-2 rounded-xl text-sm font-semibold text-[#75685C] hover:text-[#3B3028] hover:bg-[#F4E8D5]/60 transition-all duration-200"
+            >
+              Projects
+            </Link>
+
+            <a
+              href="#how-it-works"
+              className="px-3.5 py-2 rounded-xl text-sm font-semibold text-[#75685C] hover:text-[#3B3028] hover:bg-[#F4E8D5]/60 transition-all duration-200"
+            >
+              How It Works
+            </a>
+
+            <a
+              href="#community"
+              className="px-3.5 py-2 rounded-xl text-sm font-semibold text-[#75685C] hover:text-[#3B3028] hover:bg-[#F4E8D5]/60 transition-all duration-200"
+            >
+              Community
+            </a>
+
             {user && (
               <>
                 <Link
                   to={isClient ? '/client/dashboard' : '/freelancer/dashboard'}
-                  className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                     isActive('/client/dashboard') || isActive('/freelancer/dashboard')
-                      ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-[#16A085]/10 text-[#16A085] border border-[#16A085]/20'
+                      : 'text-[#75685C] hover:text-[#3B3028] hover:bg-[#F4E8D5]/60'
                   }`}
                 >
                   Dashboard
@@ -135,10 +161,10 @@ const Navbar = () => {
 
                 <Link
                   to="/contracts"
-                  className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                     isActive('/contracts')
-                      ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-[#16A085]/10 text-[#16A085] border border-[#16A085]/20'
+                      : 'text-[#75685C] hover:text-[#3B3028] hover:bg-[#F4E8D5]/60'
                   }`}
                 >
                   Contracts
@@ -147,19 +173,19 @@ const Navbar = () => {
             )}
           </nav>
 
-          {/* Right Action Buttons */}
+          {/* Right Action Area */}
           <div className="hidden md:flex items-center gap-3">
-            {/* Quick Demo Switcher if not logged in */}
             {!user ? (
-              <div className="flex items-center gap-2">
-                <div className="flex items-center bg-slate-800/80 rounded-lg p-1 border border-slate-700/60 text-xs">
-                  <span className="text-slate-400 px-2 flex items-center gap-1 font-medium">
-                    <Sparkles className="w-3.5 h-3.5 text-indigo-400" /> Demo:
+              <div className="flex items-center gap-2.5">
+                {/* 1-Click Fast Demo Switcher */}
+                <div className="flex items-center bg-[#F4E8D5] rounded-xl p-1 border border-[#E5D7C5] shadow-inner text-xs">
+                  <span className="text-[#75685C] px-2 flex items-center gap-1 font-semibold text-[11px]">
+                    <Sparkles className="w-3.5 h-3.5 text-[#D97757]" /> Demo:
                   </span>
                   <button
                     onClick={() => handleDemoLogin('client')}
                     disabled={loggingInDemo}
-                    className="px-2.5 py-1 rounded bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 font-medium transition-colors"
+                    className="px-2.5 py-1 rounded-lg bg-[#16A085] hover:bg-[#12806A] text-white font-semibold transition-all text-xs shadow-sm"
                     title="1-Click Login as Client"
                   >
                     Client
@@ -167,7 +193,7 @@ const Navbar = () => {
                   <button
                     onClick={() => handleDemoLogin('freelancer')}
                     disabled={loggingInDemo}
-                    className="px-2.5 py-1 rounded bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-300 font-medium ml-1 transition-colors"
+                    className="px-2.5 py-1 rounded-lg bg-[#D97757] hover:bg-[#c26547] text-white font-semibold ml-1 transition-all text-xs shadow-sm"
                     title="1-Click Login as Freelancer"
                   >
                     Freelancer
@@ -176,68 +202,67 @@ const Navbar = () => {
 
                 <Link
                   to="/login"
-                  className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                  className="px-4 py-2 text-sm font-semibold text-[#3B3028] hover:text-[#16A085] transition-colors"
                 >
                   Log In
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white shadow-glow transition-all"
+                  className="btn-primary py-2 px-5 text-xs shadow-warm-md"
                 >
-                  Sign Up
+                  Get Started
                 </Link>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                {/* Client Post Job Button */}
+              <div className="flex items-center gap-2.5">
                 {isClient && (
                   <Link
                     to="/post-job"
-                    className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white shadow-glow transition-all"
+                    className="btn-primary py-2 px-4 text-xs shadow-warm-md"
                   >
                     <PlusCircle className="w-4 h-4" />
-                    <span>Post a Job</span>
+                    <span>Post Job</span>
                   </Link>
                 )}
 
-                {/* Messages Link */}
+                {/* Direct Messages */}
                 <Link
                   to="/messages"
-                  className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors relative"
+                  className="p-2.5 rounded-xl text-[#75685C] hover:text-[#16A085] hover:bg-[#F4E8D5]/70 transition-all relative border border-[#E5D7C5] bg-[#FFFDF8]"
                   title="Direct Messages"
                 >
-                  <MessageSquare className="w-5 h-5" />
+                  <MessageSquare className="w-4.5 h-4.5" />
                 </Link>
 
                 {/* Notifications Bell */}
                 <div className="relative" ref={notifMenuRef}>
                   <button
                     onClick={() => setNotifDropdownOpen(!notifDropdownOpen)}
-                    className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors relative"
+                    className="p-2.5 rounded-xl text-[#75685C] hover:text-[#16A085] hover:bg-[#F4E8D5]/70 transition-all relative border border-[#E5D7C5] bg-[#FFFDF8]"
                   >
-                    <Bell className="w-5 h-5" />
+                    <Bell className="w-4.5 h-4.5" />
                     {unreadNotificationsCount > 0 && (
-                      <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-pink-500 rounded-full ring-2 ring-slate-900 animate-pulse" />
+                      <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-[#D97757] rounded-full ring-2 ring-[#FFFDF8] animate-pulse" />
                     )}
                   </button>
 
-                  {/* Notifications Dropdown */}
+                  {/* Dropdown */}
                   {notifDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-80 rounded-xl glass-dropdown shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2">
-                      <div className="px-4 py-2 border-b border-slate-800 flex items-center justify-between">
-                        <span className="font-semibold text-sm text-white">Notifications</span>
+                    <div className="absolute right-0 mt-2 w-80 rounded-2xl bg-[#FFFDF8] border border-[#E5D7C5] shadow-warm-xl py-2 z-50 animate-in fade-in slide-in-from-top-2">
+                      <div className="px-4 py-2.5 border-b border-[#E5D7C5] flex items-center justify-between">
+                        <span className="font-bold text-sm text-[#3B3028]">Notifications</span>
                         {unreadNotificationsCount > 0 && (
                           <button
                             onClick={handleMarkAllRead}
-                            className="text-xs text-indigo-400 hover:text-indigo-300 font-medium"
+                            className="text-xs text-[#16A085] hover:text-[#12806A] font-semibold"
                           >
                             Mark all read
                           </button>
                         )}
                       </div>
-                      <div className="max-h-72 overflow-y-auto divide-y divide-slate-800/60">
+                      <div className="max-h-72 overflow-y-auto divide-y divide-[#F4E8D5]">
                         {notifications.length === 0 ? (
-                          <div className="p-4 text-center text-xs text-slate-400">
+                          <div className="p-5 text-center text-xs text-[#75685C]">
                             No notifications yet
                           </div>
                         ) : (
@@ -248,15 +273,19 @@ const Navbar = () => {
                                 setNotifDropdownOpen(false);
                                 if (n.link) navigate(n.link);
                               }}
-                              className={`p-3 text-xs hover:bg-slate-800/80 cursor-pointer transition-colors ${
-                                !n.read ? 'bg-indigo-950/30' : ''
+                              className={`p-3 text-xs hover:bg-[#F8EFE2] cursor-pointer transition-colors ${
+                                !n.read ? 'bg-[#FFF9F0]' : ''
                               }`}
                             >
-                              <p className="font-semibold text-slate-200">{n.title}</p>
-                              <p className="text-slate-400 mt-0.5 line-clamp-2">{n.message}</p>
-                              <span className="text-[10px] text-slate-500 mt-1 block">
-                                {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                              </span>
+                              <div className="flex items-start gap-2">
+                                <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${!n.read ? 'bg-[#16A085]' : 'bg-transparent'}`} />
+                                <div>
+                                  <p className="text-[#3B3028] font-medium leading-snug">{n.message}</p>
+                                  <span className="text-[10px] text-[#9C8E80] mt-1 block">
+                                    {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
                           ))
                         )}
@@ -265,74 +294,75 @@ const Navbar = () => {
                   )}
                 </div>
 
-                {/* User Profile Dropdown */}
+                {/* User Menu Dropdown */}
                 <div className="relative" ref={userMenuRef}>
                   <button
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                    className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+                    className="flex items-center gap-2.5 p-1.5 pr-3 rounded-2xl bg-[#FFFDF8] hover:bg-[#F8EFE2] border border-[#E5D7C5] transition-all"
                   >
                     <img
                       src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`}
                       alt={user.name}
-                      className="w-8 h-8 rounded-full border border-indigo-500/40 object-cover"
+                      className="w-8 h-8 rounded-xl object-cover border border-[#E5D7C5]"
                     />
-                    <div className="hidden lg:flex flex-col text-left">
-                      <span className="text-xs font-semibold text-white leading-tight">{user.name}</span>
-                      <span className="text-[10px] capitalize text-indigo-400 font-medium">{user.role}</span>
+                    <div className="text-left hidden sm:block">
+                      <p className="text-xs font-bold text-[#3B3028] truncate max-w-[100px] leading-tight">
+                        {user.name}
+                      </p>
+                      <p className="text-[10px] font-semibold text-[#16A085] capitalize leading-none">
+                        {user.role}
+                      </p>
                     </div>
-                    <ChevronDown className="w-4 h-4 text-slate-400" />
+                    <ChevronDown className="w-3.5 h-3.5 text-[#75685C]" />
                   </button>
 
                   {userDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-56 rounded-xl glass-dropdown shadow-2xl py-2 z-50">
-                      <div className="px-4 py-2 border-b border-slate-800">
-                        <p className="text-sm font-semibold text-white truncate">{user.name}</p>
-                        <p className="text-xs text-slate-400 truncate">{user.email}</p>
-                        <span className="inline-block mt-1.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                          {user.role} Account
-                        </span>
+                    <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-[#FFFDF8] border border-[#E5D7C5] shadow-warm-xl py-2 z-50 animate-in fade-in slide-in-from-top-2">
+                      <div className="px-4 py-2 border-b border-[#E5D7C5]">
+                        <p className="text-xs font-bold text-[#3B3028] truncate">{user.name}</p>
+                        <p className="text-[11px] text-[#75685C] truncate">{user.email}</p>
                       </div>
 
                       <div className="py-1">
                         <Link
                           to={isClient ? '/client/dashboard' : '/freelancer/dashboard'}
-                          className="flex items-center gap-2.5 px-4 py-2 text-xs text-slate-300 hover:text-white hover:bg-slate-800/80"
+                          onClick={() => setUserDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#3B3028] hover:bg-[#F8EFE2] hover:text-[#16A085] transition-colors"
                         >
-                          <LayoutDashboard className="w-4 h-4 text-indigo-400" />
-                          Dashboard
+                          <LayoutDashboard className="w-4 h-4 text-[#75685C]" />
+                          <span>Dashboard</span>
                         </Link>
-                        {isFreelancer && (
-                          <Link
-                            to={`/freelancers/${user._id}`}
-                            className="flex items-center gap-2.5 px-4 py-2 text-xs text-slate-300 hover:text-white hover:bg-slate-800/80"
-                          >
-                            <User className="w-4 h-4 text-cyan-400" />
-                            View Public Profile
-                          </Link>
-                        )}
+
                         <Link
                           to="/contracts"
-                          className="flex items-center gap-2.5 px-4 py-2 text-xs text-slate-300 hover:text-white hover:bg-slate-800/80"
+                          onClick={() => setUserDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#3B3028] hover:bg-[#F8EFE2] hover:text-[#16A085] transition-colors"
                         >
-                          <FileText className="w-4 h-4 text-emerald-400" />
-                          My Contracts
+                          <FileText className="w-4 h-4 text-[#75685C]" />
+                          <span>My Contracts</span>
                         </Link>
+
                         <Link
                           to="/profile"
-                          className="flex items-center gap-2.5 px-4 py-2 text-xs text-slate-300 hover:text-white hover:bg-slate-800/80"
+                          onClick={() => setUserDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#3B3028] hover:bg-[#F8EFE2] hover:text-[#16A085] transition-colors"
                         >
-                          <User className="w-4 h-4 text-amber-400" />
-                          Edit Profile & Settings
+                          <User className="w-4 h-4 text-[#75685C]" />
+                          <span>Profile Settings</span>
                         </Link>
                       </div>
 
-                      <div className="border-t border-slate-800 pt-1">
+                      <div className="pt-1 border-t border-[#E5D7C5]">
                         <button
-                          onClick={logout}
-                          className="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-red-400 hover:text-red-300 hover:bg-red-950/30 text-left"
+                          onClick={() => {
+                            setUserDropdownOpen(false);
+                            logout();
+                            navigate('/login');
+                          }}
+                          className="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-[#c26547] hover:bg-[#faece5] transition-colors"
                         >
                           <LogOut className="w-4 h-4" />
-                          Log Out
+                          <span>Log Out</span>
                         </button>
                       </div>
                     </div>
@@ -342,11 +372,28 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Button */}
           <div className="flex md:hidden items-center gap-2">
+            {!user && (
+              <div className="flex items-center gap-1 bg-[#F4E8D5] p-1 rounded-xl border border-[#E5D7C5]">
+                <button
+                  onClick={() => handleDemoLogin('client')}
+                  className="px-2 py-0.5 rounded-lg bg-[#16A085] text-white text-[10px] font-bold"
+                >
+                  Client
+                </button>
+                <button
+                  onClick={() => handleDemoLogin('freelancer')}
+                  className="px-2 py-0.5 rounded-lg bg-[#D97757] text-white text-[10px] font-bold"
+                >
+                  Freelancer
+                </button>
+              </div>
+            )}
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+              className="p-2 rounded-xl text-[#3B3028] hover:bg-[#F4E8D5] border border-[#E5D7C5]"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -355,93 +402,90 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-slate-900 border-b border-slate-800 px-4 pt-2 pb-6 space-y-3">
-          <Link
-            to="/jobs"
-            className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
-          >
-            Browse Jobs
-          </Link>
-          <Link
-            to="/freelancers"
-            className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
-          >
-            Find Talent
-          </Link>
+        <div className="md:hidden border-t border-[#E5D7C5] bg-[#FFFDF8] px-4 pt-3 pb-6 space-y-3 shadow-warm-xl">
+          <nav className="flex flex-col space-y-1">
+            <Link
+              to="/freelancers"
+              className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[#3B3028] hover:bg-[#F4E8D5]"
+            >
+              Find Talent
+            </Link>
+            <Link
+              to="/jobs"
+              className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[#3B3028] hover:bg-[#F4E8D5]"
+            >
+              Find Work
+            </Link>
+            <Link
+              to="/jobs"
+              className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[#3B3028] hover:bg-[#F4E8D5]"
+            >
+              Projects
+            </Link>
 
-          {user ? (
-            <>
-              <Link
-                to={isClient ? '/client/dashboard' : '/freelancer/dashboard'}
-                className="block px-3 py-2 rounded-lg text-base font-medium text-indigo-400 hover:bg-slate-800"
-              >
-                Dashboard
-              </Link>
-              {isClient && (
+            {user ? (
+              <>
                 <Link
-                  to="/post-job"
-                  className="block px-3 py-2 rounded-lg text-base font-medium text-cyan-400 hover:bg-slate-800"
+                  to={isClient ? '/client/dashboard' : '/freelancer/dashboard'}
+                  className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[#3B3028] hover:bg-[#F4E8D5]"
                 >
-                  Post a Job
+                  Dashboard
                 </Link>
-              )}
-              <Link
-                to="/contracts"
-                className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
-              >
-                My Contracts
-              </Link>
-              <Link
-                to="/messages"
-                className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
-              >
-                Messages
-              </Link>
-              <Link
-                to="/profile"
-                className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
-              >
-                Profile Settings
-              </Link>
-              <button
-                onClick={logout}
-                className="w-full text-left px-3 py-2 rounded-lg text-base font-medium text-red-400 hover:bg-red-950/30"
-              >
-                Log Out ({user.name})
-              </button>
-            </>
-          ) : (
-            <div className="pt-4 border-t border-slate-800 space-y-2">
-              <div className="grid grid-cols-2 gap-2 mb-3">
-                <button
-                  onClick={() => handleDemoLogin('client')}
-                  className="px-3 py-2 rounded-lg bg-indigo-600/30 text-indigo-300 text-xs font-semibold"
+                <Link
+                  to="/contracts"
+                  className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[#3B3028] hover:bg-[#F4E8D5]"
                 >
-                  Demo Client
-                </button>
-                <button
-                  onClick={() => handleDemoLogin('freelancer')}
-                  className="px-3 py-2 rounded-lg bg-cyan-600/30 text-cyan-300 text-xs font-semibold"
+                  Contracts
+                </Link>
+                <Link
+                  to="/messages"
+                  className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[#3B3028] hover:bg-[#F4E8D5]"
                 >
-                  Demo Freelancer
+                  Messages
+                </Link>
+                <Link
+                  to="/profile"
+                  className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[#3B3028] hover:bg-[#F4E8D5]"
+                >
+                  Profile Settings
+                </Link>
+                {isClient && (
+                  <Link
+                    to="/post-job"
+                    className="btn-primary w-full py-2.5 mt-2 text-xs"
+                  >
+                    Post a Project
+                  </Link>
+                )}
+                <button
+                  onClick={() => {
+                    logout();
+                    navigate('/login');
+                  }}
+                  className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold text-[#c26547] hover:bg-[#faece5]"
+                >
+                  Log Out
                 </button>
+              </>
+            ) : (
+              <div className="pt-3 border-t border-[#E5D7C5] space-y-2">
+                <Link
+                  to="/login"
+                  className="block w-full py-2.5 text-center rounded-xl bg-[#F4E8D5] text-sm font-semibold text-[#3B3028]"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/register"
+                  className="btn-primary block w-full py-2.5 text-center text-sm font-semibold text-white"
+                >
+                  Get Started
+                </Link>
               </div>
-              <Link
-                to="/login"
-                className="block w-full text-center py-2.5 rounded-lg border border-slate-700 text-slate-200 font-medium"
-              >
-                Log In
-              </Link>
-              <Link
-                to="/register"
-                className="block w-full text-center py-2.5 rounded-lg bg-indigo-600 text-white font-medium"
-              >
-                Create Account
-              </Link>
-            </div>
-          )}
+            )}
+          </nav>
         </div>
       )}
     </header>
