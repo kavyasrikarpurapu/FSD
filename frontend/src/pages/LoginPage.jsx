@@ -89,26 +89,33 @@ const LoginPage = () => {
             </div>
 
             {/* 1-Click Fast Demo Logins */}
-            <div className="space-y-2 p-4 rounded-2xl bg-[#F4E8D5]/60 border border-[#E5D7C5]">
-              <span className="text-[11px] font-bold uppercase text-[#75685C] tracking-wider block">
-                1-Click Fast Demo Login
-              </span>
+            <div className="space-y-2.5 p-4 rounded-2xl bg-[#F4E8D5]/60 border border-[#E5D7C5]">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold uppercase text-[#75685C] tracking-wider block">
+                  1-Click Fast Demo Login
+                </span>
+                <span className="text-[10px] text-[#75685C] bg-[#FFFDF8] px-2 py-0.5 rounded-md border border-[#E5D7C5]">
+                  Pass: <code className="text-[#3B3028] font-bold">password123</code>
+                </span>
+              </div>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => handleDemoClick('client')}
                   disabled={loading}
-                  className="py-2.5 px-3 rounded-xl bg-[#16A085] hover:bg-[#12806A] text-white text-xs font-bold transition-all shadow-sm"
+                  className="py-2.5 px-3 rounded-xl bg-[#16A085] hover:bg-[#12806A] text-white text-xs font-bold transition-all shadow-sm flex flex-col items-center justify-center gap-0.5"
                 >
-                  Sign in as Client
+                  <span>Sign in as Client</span>
+                  <span className="text-[10px] opacity-80 font-normal">client@example.com</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDemoClick('freelancer')}
                   disabled={loading}
-                  className="py-2.5 px-3 rounded-xl bg-[#D97757] hover:bg-[#c26547] text-white text-xs font-bold transition-all shadow-sm"
+                  className="py-2.5 px-3 rounded-xl bg-[#D97757] hover:bg-[#c26547] text-white text-xs font-bold transition-all shadow-sm flex flex-col items-center justify-center gap-0.5"
                 >
-                  Sign in as Freelancer
+                  <span>Sign in as Freelancer</span>
+                  <span className="text-[10px] opacity-80 font-normal">freelancer@example.com</span>
                 </button>
               </div>
             </div>
