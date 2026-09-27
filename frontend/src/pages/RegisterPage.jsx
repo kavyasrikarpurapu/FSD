@@ -67,6 +67,13 @@ const RegisterPage = () => {
     setError('Backend URL updated! Please submit the form again.');
   };
 
+  const handleResetApiUrl = () => {
+    localStorage.removeItem('VITE_API_URL');
+    localStorage.removeItem('API_URL_OVERRIDE');
+    setShowConfig(false);
+    setError('Reset to local backend! Please submit the form again.');
+  };
+
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">
       <div className="bg-[#FFFDF8] border border-[#E5D7C5] rounded-3xl w-full max-w-4xl shadow-warm-xl grid grid-cols-1 md:grid-cols-12 overflow-hidden">
@@ -122,30 +129,49 @@ const RegisterPage = () => {
                   <span className="leading-relaxed">{error}</span>
                 </div>
                 {(error.includes('405') || error.includes('Backend') || error.includes('backend') || error.includes('connect')) && (
-                  <div className="pt-2 border-t border-[#f6d9cd]/80">
+                  <div className="pt-2 border-t border-[#f6d9cd]/80 space-y-2">
                     {!showConfig ? (
-                      <button
-                        type="button"
-                        onClick={() => setShowConfig(true)}
-                        className="font-bold underline text-[#c26547] hover:text-[#a04e33]"
-                      >
-                        Click here to enter your live Render backend URL
-                      </button>
-                    ) : (
-                      <div className="flex gap-2 mt-1.5">
-                        <input
-                          type="text"
-                          placeholder="https://your-backend.onrender.com"
-                          value={customApiUrl}
-                          onChange={(e) => setCustomApiUrl(e.target.value)}
-                          className="flex-1 bg-white border border-[#E5D7C5] rounded-lg px-2.5 py-1 text-xs text-[#3B3028] placeholder-[#9C8E80] focus:outline-none"
-                        />
+                      <div className="flex flex-wrap items-center gap-2">
                         <button
                           type="button"
-                          onClick={handleSaveApiUrl}
-                          className="px-3 py-1 bg-[#16A085] hover:bg-[#12806A] text-white font-bold rounded-lg text-xs"
+                          onClick={() => setShowConfig(true)}
+                          className="font-bold underline text-[#c26547] hover:text-[#a04e33]"
                         >
-                          Save & Retry
+                          Click here to enter your live Render backend URL
+                        </button>
+                        <span className="text-[#9C8E80]">|</span>
+                        <button
+                          type="button"
+                          onClick={handleResetApiUrl}
+                          className="font-bold underline text-[#16A085] hover:text-[#12806A]"
+                        >
+                          Reset to Localhost (/api)
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="space-y-1.5">
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="https://your-backend.onrender.com"
+                            value={customApiUrl}
+                            onChange={(e) => setCustomApiUrl(e.target.value)}
+                            className="flex-1 bg-white border border-[#E5D7C5] rounded-lg px-2.5 py-1 text-xs text-[#3B3028] placeholder-[#9C8E80] focus:outline-none"
+                          />
+                          <button
+                            type="button"
+                            onClick={handleSaveApiUrl}
+                            className="px-3 py-1 bg-[#16A085] hover:bg-[#12806A] text-white font-bold rounded-lg text-xs"
+                          >
+                            Save & Retry
+                          </button>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleResetApiUrl}
+                          className="text-[11px] underline text-[#75685C] hover:text-[#3B3028]"
+                        >
+                          Reset to local backend (http://localhost:5001)
                         </button>
                       </div>
                     )}

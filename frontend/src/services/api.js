@@ -3,7 +3,12 @@ import axios from 'axios';
 const getApiBaseUrl = () => {
   const runtimeUrl = typeof window !== 'undefined' ? (localStorage.getItem('VITE_API_URL') || localStorage.getItem('API_URL_OVERRIDE')) : null;
   const envUrl = runtimeUrl || import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL;
-  if (!envUrl) return '/api';
+  if (!envUrl) {
+    if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      return 'https://fsd-1-814n.onrender.com/api';
+    }
+    return '/api';
+  }
   const cleanUrl = envUrl.replace(/\/+$/, '');
   return cleanUrl.endsWith('/api') ? cleanUrl : `${cleanUrl}/api`;
 };
